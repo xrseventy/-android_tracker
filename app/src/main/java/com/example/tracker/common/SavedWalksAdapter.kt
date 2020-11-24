@@ -1,0 +1,30 @@
+package com.example.tracker.common
+
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.example.tracker.R
+
+class SavedWalksAdapter(private val savedListWalks: List<SavedWalk>) :
+    RecyclerView.Adapter<SavedWalkViewHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SavedWalkViewHolder {
+        val v = LayoutInflater.from(parent.context).inflate(
+            R.layout.address_and_distance_item,
+            parent,
+            false
+        )
+        return SavedWalkViewHolder(v)
+    }
+
+    override fun onBindViewHolder(holder: SavedWalkViewHolder, position: Int) {
+        val savedListLocation = savedListWalks[position].location
+        val savedListDist = savedListWalks[position].distance
+
+        holder.bind(savedListLocation, savedListDist)
+    }
+
+    override fun getItemCount(): Int =
+        savedListWalks.size
+
+}

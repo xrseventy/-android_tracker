@@ -1,0 +1,256 @@
+
+<!--<resources>-->
+<!--<color name="purple_200">#FFBB86FC</color>-->
+<!--<color name="purple_500">#FF6200EE</color>-->
+<!--<color name="purple_700">#FF3700B3</color>-->
+<!--<color name="teal_200">#FF03DAC5</color>-->
+<!--<color name="teal_700">#FF018786</color>-->
+<!--<color name="black">#FF000000</color>-->
+<!--<color name="white">#FFFFFFFF</color>-->
+<!--<color name="color">#673AB7</color>-->
+<!--</resources>-->
+
+
+package com.example.tracker
+
+import android.animation.ObjectAnimator
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.os.Environment
+import android.os.PersistableBundle
+import android.provider.Settings.Global.putString
+import android.util.Log
+import android.view.Gravity
+import android.widget.*
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.address_and_distance_item.*
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
+
+
+class MainActivity : AppCompatActivity(){
+
+    private lateinit var preferencesProvider: PreferencesProvider
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        recyclerViewSavedAddress.adapter = RecyclerAdapter(Cell.locationList, Cell.distanceList)
+        preferencesProvider = PreferencesProvider(applicationContext)
+      //  postToList()
+        setEditText()
+
+        buttonAdd.setOnClickListener {
+            getData()
+            recyclerViewSavedAddress.adapter = RecyclerAdapter(Cell.locationList, Cell.distanceList)
+        }
+    }
+
+    private fun setEditText(){
+        editTextLocation.setText(preferencesProvider.getString(Constants.KEY_LOCATION))
+        editTextDistance.setText(preferencesProvider.getInt(Constants.KEY_DISTANCE).toString())
+    }
+    private fun getData()
+    {
+        Cell.enterLocation = editTextLocation.text.toString()
+        preferencesProvider.putString(Constants.KEY_LOCATION, Cell.enterLocation)
+
+        if (validate()) {
+            preferencesProvider.putInt(Constants.KEY_DISTANCE, editTextDistance.text.toString().toInt())
+            Cell.date = getCurrentDateTime().toString("yyyy.MM.dd HH:mm")
+
+            Log.d(this.toString(), "enterLocation: $Cell.enterLocation, enterDistance $Cell.enterDistance")
+            Log.d(this.toString(), "date: $Cell.date")
+
+            addToList(Cell.enterLocation,Cell.enterDistance)
+
+            Log.d(this.toString(), "locationList: ${Cell.locationList}")
+            Log.d(this.toString(), "distanceList: ${Cell.distanceList}")
+
+            progressBar()
+            clearEditTexts()
+          //  recyclerViewSavedAddress.adapter = RecyclerAdapter(Cell.locationList, Cell.distanceList)
+
+            makeToast()
+        }
+        createJsonData()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+
+        outState?.run {
+            putStringArrayList("Location", Cell.locationList)
+            putIntegerArrayList("Distance", Cell.distanceList)
+            putInt("CurDistance",Cell.currentDistance)
+        }
+
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+
+
+          //  savedInstanceState.getStringArrayList("Location").toString()
+           // inItemDistance.text = savedInstanceState.getIntegerArrayList("Distance" ).toString()
+
+        var test = savedInstanceState.getStringArrayList("Location").toString()
+       Log.d(this.toString(), "onRestoreInstanceState test = $test")
+
+        Cell.currentDistance = savedInstanceState.getInt("CurDistance")
+
+    }
+
+    object Cell{
+
+        var enterLocation: String = "0"
+        var enterDistance: Int = 0
+        var currentDistance = 0
+        var date: String = ""
+
+        var locationList = ArrayList<String>()
+        var distanceList = ArrayList<Int>()
+
+    }
+
+    private fun  validate(): Boolean {
+        if (editTextDistance.text.toString().length == 0) {
+            editTextDistance.setError("Enter data")
+            return false
+        } else
+            Cell.enterDistance = editTextDistance.text.toString().toInt()
+
+        if ((Cell.enterDistance == 0)) {
+            editTextDistance.setError("Enter data")
+            return false
+        } else if ((Cell.enterLocation.isEmpty())) {
+            editTextLocation.setError("Enter data")
+            return false
+        }
+        return true
+    }
+
+    private fun clearEditTexts(){
+        editTextLocation.setText("")
+        editTextDistance.setText("")
+    }
+
+    private fun progressBar()
+    {
+        progressBarDistance.max = 100
+        Cell.currentDistance += Cell.enterDistance
+        ObjectAnimator.ofInt(progressBarDistance, "progress", Cell.currentDistance)
+            .setDuration(20)
+            .start()
+    }
+
+    private fun makeToast()
+    {
+        val toastAdd = Toast.makeText(applicationContext, "Added", Toast.LENGTH_LONG)
+        toastAdd.setGravity(Gravity.TOP, 0, 170)
+        toastAdd.show()
+    }
+    private fun addToList(location: String, distance: Int)
+    {
+
+        Cell.locationList.add(Cell.enterLocation)
+        Cell.distanceList.add(Cell.enterDistance)
+
+    }
+
+//    private fun postToList(){
+//        for (i:Int in 1..2)
+//        {
+//            addToList("Location $i", i)
+//        }
+//    }
+
+
+    data class SavedData(val Date: String)
+
+    private fun createJsonData(){
+        Log.d(this.toString(), "1createJsonData")
+        var jsonData = JSONObject()
+        val savedData = SavedData(Cell.date)
+            jsonData.put("savedData", addSavedData(savedData))
+
+        val notes = arrayListOf<Note>(
+                Note(Cell.enterLocation, Cell.enterDistance, Cell.currentDistance)
+        )
+        jsonData.put("notes", addDetaledNote(notes))
+
+        saveDataToJson(jsonData.toString())
+    }
+
+    private fun addDetaledNote(notes: ArrayList<Note>) : JSONArray {
+
+        var NotesJson = JSONArray()
+
+        notes.forEach{
+            NotesJson.put(
+                    JSONArray()
+                            .put(it.location)
+                            .put(it.distance)
+                            .put(it.sumDistance)
+            )
+        }
+        return NotesJson
+
+    }
+    private fun addSavedData(savedData: SavedData): JSONObject {
+        return (JSONObject()
+               .put("currentDateTime", savedData.Date))
+
+    }
+
+    private fun saveDataToJson(jsonString: String)
+    {
+        //val fileName = "jsonNotes"
+//        val storageDir= getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
+//        if(!storageDir!!.exists()) {
+//            storageDir!!.mkdir()
+//        }
+
+        preferencesProvider.putString("json", jsonString)
+        //preferencesProvider.()
+
+        val output: Writer
+        val file = createFile()
+        //val file = File(storageDir, fileName + ".json")
+
+        output = BufferedWriter(FileWriter(file))
+        //Log.d(this.toString(), "outpuuuuut $output")
+        output.write(jsonString)
+        output.close()
+
+    }
+
+    private fun createFile(): File {
+        val fileName = "jsonNotes"
+        //storage/self/primary/Android/data/com.example.tracker/files/Documents
+        val storageDir= getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
+        if(!storageDir!!.exists()) {
+            storageDir!!.mkdir()
+        }
+
+        return File(storageDir, fileName + ".json")
+    }
+
+data class Note(val location: String, val distance: Int, val sumDistance: Int)
+
+    fun Date.toString(format: String, locale: Locale = Locale.getDefault()): String {
+        val formatter = SimpleDateFormat(format, locale)
+        return formatter.format(this)
+    }
+
+    fun getCurrentDateTime(): Date {
+        return Calendar.getInstance().time
+    }
+
+}
