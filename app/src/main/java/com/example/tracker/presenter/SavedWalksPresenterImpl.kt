@@ -1,13 +1,18 @@
 package com.example.tracker.presenter
 
+import android.util.Log
 import com.example.tracker.R
-import com.example.tracker.common.App
-import com.example.tracker.model.ModelWalksScreenState
+import com.example.tracker.common.Model
 import com.example.tracker.common.SavedWalk
+import com.example.tracker.model.ModelWalksScreenState
 import com.example.tracker.view.SavedWalksView
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.lang.reflect.Type
+
 
 class SavedWalksPresenterImpl(
-    private val iMainView: SavedWalksView, private val model: App.Model
+    private val iMainView: SavedWalksView, private val model: Model
 
 ) : SavedWalksPresenter {
 
@@ -15,28 +20,69 @@ class SavedWalksPresenterImpl(
         ModelWalksScreenState("", "", model.getListWalk())
 
     fun init() {
-        setProgressText()
+
+        model.setTextLocation()
+            ?.let { model.setTextDistance()?.let { it1 -> iMainView.setEditText(it, it1) } }
+        loadListWalk()
+        setProgressBar()
         iMainView.updateAdapter(modelWalksScreenState.listWalks)
     }
 
+
     override fun clickAddButton() {
         if (modelWalksScreenState.isValidFields) {
-            updateScreen()
-            setProgressData()
+            addToList()
+            saveListWalksToSharedPref()
+            setProgressBar()
+            prepareScreen()
             iMainView.updateAdapter(modelWalksScreenState.listWalks)
-            iMainView.closeKeyboards()
+           //model.clearSavedWalksList()
         } else
             setError()
     }
+    private fun loadListWalk(){
+        if(isWalkListInSharedPref()) {
+            getSavedWalksListFromSharedPref()
+        }
+        else {
+            Log.d(this.toString(), "HERE")
+            iMainView.makeToast(R.string.toastFirstWalk) //TODO for your first walk
 
-    override fun onLocationTextChanged(s: String) {
-        updateModelWalks(location = s)
+        }
+
+
     }
 
-    override fun onDistanceTextChanged(s: String) {
-        updateModelWalks(distance = s)
+    private fun addToList() {
+        val savedWalksClass = SavedWalk(
+            modelWalksScreenState.enterLocation,
+            modelWalksScreenState.enterDistance.toInt()
+        )
+        val newList = modelWalksScreenState.listWalks.toMutableList()
+        newList.add(savedWalksClass)
+        updateModelWalks(listWalks = newList)
+        model.addWalk(savedWalksClass)
     }
 
+    private fun saveListWalksToSharedPref() {
+        val listWalksToJson = Gson().toJson(modelWalksScreenState.listWalks)
+        model.saveSharedPref(
+            modelWalksScreenState.enterLocation,
+            modelWalksScreenState.enterDistance.toInt(),
+            listWalksToJson
+        )
+    }
+
+    private fun prepareScreen() {
+        iMainView.clearEditTexts()
+        iMainView.makeToast(R.string.toastAdd) //TODO for added elem
+        iMainView.closeKeyboards()
+    }
+
+    private fun setProgressBar() {
+        updateAnimationProgressBar()
+        setProgressText()
+    }
 
     private fun updateModelWalks(
         location: String = modelWalksScreenState.enterLocation,
@@ -46,35 +92,29 @@ class SavedWalksPresenterImpl(
         modelWalksScreenState = ModelWalksScreenState(location, distance, listWalks)
     }
 
-    private fun updateScreen() {
-        saveWalks()
-        updateAnimationProgressBar()
-        iMainView.clearEditTexts()
-        iMainView.makeToast()
+    private fun isWalkListInSharedPref():Boolean{
+        return model.checkKeySavedWalksList()
     }
 
-    private fun setProgressData() {
-        updateAnimationProgressBar()
-        setProgressText()
+    private fun getSavedWalksListFromSharedPref(): List<SavedWalk> {
+       // val string: String? = model.setListWalks()
+        val type: Type = object : TypeToken<List<SavedWalk?>?>() {}.type
+        val loadList = Gson().fromJson<List<SavedWalk>>(model.setListWalks(), type)
+        //model.
+
+//        Log.d(this.toString(), "loadList =$loadList")
+//        Log.d(this.toString(), "string =$string")
+       // if(model.checkKeySavedWalksList())
+
+            updateModelWalks(listWalks = loadList)
+       // else {
+         //   Log.d(this.toString(), "HERE")
+         //   iMainView.makeToast(R.string.toastFirstWalk) //TODO for your first walk
+
+      //  }
+        return loadList
     }
 
-    private fun saveWalks() {
-        addToList()
-        iMainView.saveSharedPref(
-            modelWalksScreenState.enterLocation,
-            modelWalksScreenState.enterDistance.toInt()
-        )
-    }
-
-    private fun addToList() {
-        val savedWalksClass = SavedWalk(
-            modelWalksScreenState.enterLocation,
-            modelWalksScreenState.enterDistance.toInt()
-        )
-        val screenStateList = modelWalksScreenState.listWalks + mutableListOf(savedWalksClass)
-        updateModelWalks(listWalks = screenStateList)
-        model.addWalk(savedWalksClass)
-    }
 
     private fun updateAnimationProgressBar() {
         iMainView.updateProgressBar(modelWalksScreenState.currentDistance)
@@ -87,11 +127,20 @@ class SavedWalksPresenterImpl(
     }
 
     private fun setError() {
-        val textIdDistance = R.string.ErrorDistance
-        val textIdLocation = R.string.ErrorLocation
+        val textIdDistance = R.string.errorDistance
+        val textIdLocation = R.string.errorLocation
         if (!(modelWalksScreenState.isEnterDistanceValid))
             iMainView.setErrorDistance(textIdDistance)
         if ((!modelWalksScreenState.isEnterLocationValid))
             iMainView.setErrorLocation(textIdLocation)
     }
+
+    override fun onLocationTextChanged(s: String) {
+        updateModelWalks(location = s)
+    }
+
+    override fun onDistanceTextChanged(s: String) {
+        updateModelWalks(distance = s)
+    }
+
 }

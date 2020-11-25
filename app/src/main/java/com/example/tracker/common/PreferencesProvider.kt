@@ -5,7 +5,7 @@ import android.content.Context
 class PreferencesProvider(context: Context) {
 
     private val sharedPreferences =
-        context.getSharedPreferences("sharedPrefFile", Context.MODE_PRIVATE)
+        context.getSharedPreferences(KEY_STR_NAME_FOLDER, Context.MODE_PRIVATE)
 
     fun putString(key: String, value: String) =
         sharedPreferences.edit().putString(key, value).apply()
@@ -19,8 +19,19 @@ class PreferencesProvider(context: Context) {
     fun getInt(key: String): Int =
         sharedPreferences.getInt(key, 0)
 
+    fun clearList(){
+        sharedPreferences.edit().remove(KEY_STR_SAVED_WALK).apply()
+    }
+
+
+    fun isKey(key: String) : Boolean {
+        return sharedPreferences.contains(key)
+    }
+
     companion object {
-        const val KEY_LOCATION = "Location"
-        const val KEY_DISTANCE = "Distance"
+        const val KEY_STR_SAVED_WALK = "SavedWalk"
+        const val KEY_STR_NAME_FOLDER = "sharedPrefFile"
+        const val KEY_STR_LOCATION = "Location"
+        const val KEY_INT_DISTANCE = "Distance"
     }
 }

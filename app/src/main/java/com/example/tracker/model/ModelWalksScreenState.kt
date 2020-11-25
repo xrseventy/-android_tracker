@@ -5,7 +5,7 @@ import com.example.tracker.common.SavedWalk
 class ModelWalksScreenState(
     val enterLocation: String,
     val enterDistance: String,
-    var listWalks: List<SavedWalk>
+    val listWalks: List<SavedWalk>
 
 ) {
     val isEnterDistanceValid = enterDistance.isNotEmpty()

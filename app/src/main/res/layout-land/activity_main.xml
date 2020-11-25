@@ -54,7 +54,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewSavedAddress"
         android:layout_width="300dp"
-        android:layout_height="380dp"
+        android:layout_height="282dp"
         android:layout_marginStart="405dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"

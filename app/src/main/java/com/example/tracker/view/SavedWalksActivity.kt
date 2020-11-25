@@ -3,6 +3,7 @@ package com.example.tracker.view
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -17,18 +18,15 @@ import kotlinx.android.synthetic.main.activity_main.*
 class SavedWalksActivity : AppCompatActivity(), SavedWalksView {
 
     private lateinit var savedWalksPresenterImpl: SavedWalksPresenterImpl
-    private lateinit var preferencesProvider: PreferencesProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val app = (application as App)
-        preferencesProvider = PreferencesProvider(applicationContext)
         savedWalksPresenterImpl = SavedWalksPresenterImpl(this, app.model)
-        savedWalksPresenterImpl.init()
         addTextWatcherLocation()
         addTextWatcherDistance()
-        setEditText()
+        savedWalksPresenterImpl.init()
         buttonAdd.setOnClickListener {
             savedWalksPresenterImpl.clickAddButton()
         }
@@ -50,15 +48,16 @@ class SavedWalksActivity : AppCompatActivity(), SavedWalksView {
     }
 
     private fun addTextWatcherLocation() {
-        editTextLocation.addTextChangedListener(ClearTextWatchers { s ->
+        editTextLocation.addTextChangedListener(UtilityTextWatcher { s ->
             savedWalksPresenterImpl.onLocationTextChanged(
                 s
             )
         })
     }
 
+
     private fun addTextWatcherDistance() {
-        editTextDistance.addTextChangedListener(ClearTextWatchers { s ->
+        editTextDistance.addTextChangedListener(UtilityTextWatcher { s ->
             savedWalksPresenterImpl.onDistanceTextChanged(
                 s
             )
@@ -70,17 +69,19 @@ class SavedWalksActivity : AppCompatActivity(), SavedWalksView {
             SavedWalksAdapter(listWalks)
     }
 
-    private fun setEditText() {
-        editTextLocation.setText(preferencesProvider.getString(PreferencesProvider.KEY_LOCATION))
-        editTextDistance.setText(
-            preferencesProvider.getInt(PreferencesProvider.KEY_DISTANCE).toString()
-        )
+    override fun setEditText(location: String, distance: Int) {
+//        editTextLocation.setText(preferencesProvider?.getString(PreferencesProvider.KEY_STR_LOCATION))
+//        editTextDistance.setText(
+//            preferencesProvider?.getInt(PreferencesProvider.KEY_INT_DISTANCE).toString()
+//        )
+        editTextLocation.setText(location)
+        editTextDistance.setText(distance.toString())
     }
 
-    override fun saveSharedPref(savedLocation: String, savedDistance: Int) {
-        preferencesProvider.putInt(PreferencesProvider.KEY_DISTANCE, savedDistance)
-        preferencesProvider.putString(PreferencesProvider.KEY_LOCATION, savedLocation)
-    }
+//    override fun saveSharedPref(savedLocation: String, savedDistance: Int) {
+//        preferencesProvider.putInt(PreferencesProvider.KEY_INT_DISTANCE, savedDistance)
+//        preferencesProvider.putString(PreferencesProvider.KEY_STR_LOCATION, savedLocation)
+//    }
 
     override fun updateProgressBar(values: Int) {
         ObjectAnimator.ofInt(progressBarDistance, "progress", values)
@@ -103,8 +104,8 @@ class SavedWalksActivity : AppCompatActivity(), SavedWalksView {
         editTextDistance.clearFocus()
     }
 
-    override fun makeToast() {
-        val toastAdd = Toast.makeText(applicationContext, "Added", Toast.LENGTH_LONG)
+    override fun makeToast(@StringRes textForToastResId: Int) {
+        val toastAdd = Toast.makeText(applicationContext, textForToastResId, Toast.LENGTH_LONG)
         toastAdd.setGravity(Gravity.TOP, 0, 170)
         toastAdd.show()
     }
