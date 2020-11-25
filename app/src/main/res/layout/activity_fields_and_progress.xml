@@ -25,7 +25,8 @@
         android:imeOptions="actionNext"
         android:inputType="text"
         android:maxLength="80"
-        app:layout_constraintTop_toBottomOf="@+id/textNameList" />
+        app:layout_constraintTop_toBottomOf="@+id/textNameList"
+        android:importantForAutofill="no" />
 
     <EditText
         android:id="@+id/editTextDistance"
@@ -38,7 +39,8 @@
         android:inputType="numberDecimal"
         android:maxLength="5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextLocation" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextLocation"
+        android:importantForAutofill="no" />
 
     <Button
         android:id="@+id/buttonAdd"

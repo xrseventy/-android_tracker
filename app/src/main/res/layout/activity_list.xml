@@ -4,31 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
     tools:context=".view.SavedWalksActivity">
-
-    <TextView
-        android:id="@+id/textListName"
-        android:layout_width="wrap_content"
-        android:layout_height="27dp"
-        android:layout_marginTop="4dp"
-        android:text="@string/text_your_walks"
-        android:textColor="@color/purple_700"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerViewSavedAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewSavedAddress"
         android:layout_width="match_parent"
-        android:layout_height="380dp"
-        android:layout_marginTop="4dp"
+        android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@+id/textListName"
         tools:listitem="@layout/address_and_distance_item" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

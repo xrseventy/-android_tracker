@@ -16,6 +16,7 @@ import com.example.tracker.presenter.SavedWalksPresenterImpl
 import kotlinx.android.synthetic.main.activity_fields_and_progress.*
 import kotlinx.android.synthetic.main.activity_list.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.recyclerViewSavedAddress as recyclerViewSavedAddress1
 
 class SavedWalksActivity : AppCompatActivity(), SavedWalksView {
 

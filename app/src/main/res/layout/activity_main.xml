@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!--
- To Run this layout:
- MainActivity -> onCreate() -> setContentView() -> replace: R.layout.activity_main with R.layout.layout_solution_w3
--->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context=".view.SavedWalksActivity">
 
     <include
@@ -19,120 +13,43 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/include2"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/textListName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <include
-        android:id="@+id/include2"
-        layout="@layout/activity_list"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-
-        android:layout_marginStart="8dp"
+    <TextView
+        android:id="@+id/textListName"
+        android:layout_width="98dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="147dp"
         android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="148dp"
+        android:layout_marginBottom="4dp"
+        android:text="@string/text_your_walks"
+        android:textColor="@color/green_700"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewSavedAddress"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewSavedAddress"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textListName"
+        tools:listitem="@layout/address_and_distance_item" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-<!--<?xml version="1.0" encoding="utf-8"?>-->
-<!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--    xmlns:tools="http://schemas.android.com/tools"-->
-<!--    android:id="@+id/frameLayout"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="match_parent"-->
-<!--    android:orientation="vertical"-->
-<!--    tools:context=".view.SavedWalksActivity">-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/textHelloMessage"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="30dp"-->
-<!--        android:layout_marginStart="45dp"-->
-<!--        android:layout_marginEnd="45dp"-->
-<!--        android:text="Hi! Here you are can keep details about your walks" />-->
-
-<!--    <EditText-->
-<!--        android:id="@+id/editTextLocation"-->
-<!--        android:layout_width="370dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="10dp"-->
-<!--        android:layout_marginTop="60dp"-->
-<!--        android:layout_marginEnd="10dp"-->
-<!--        android:hint="@string/enter_location"-->
-<!--        android:imeOptions="actionNext"-->
-<!--        android:inputType="text"-->
-<!--        android:maxLength="80" />-->
-
-<!--    <EditText-->
-<!--        android:id="@+id/editTextDistance"-->
-<!--        android:layout_width="185dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="10dp"-->
-<!--        android:layout_marginTop="120dp"-->
-<!--        android:layout_marginEnd="10dp"-->
-<!--        android:hint="@string/enter_distance_km"-->
-<!--        android:imeOptions="actionSend"-->
-<!--        android:inputType="numberDecimal"-->
-<!--        android:maxLength="5" />-->
-
-<!--    <Button-->
-<!--        android:id="@+id/buttonAdd"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="270dp"-->
-<!--        android:layout_marginTop="120dp"-->
-<!--        android:layout_marginEnd="10dp"-->
-<!--        android:enabled="true"-->
-<!--        android:text="@string/add_button" />-->
-
-<!--    <ProgressBar-->
-<!--        android:id="@+id/progressBarDistance"-->
-<!--        style="?android:attr/progressBarStyleHorizontal"-->
-<!--        android:layout_width="370dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="10dp"-->
-<!--        android:layout_marginTop="260dp"-->
-<!--        android:layout_marginEnd="10dp"-->
-<!--        android:max="100"-->
-<!--        android:scaleY="8" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/textYourProgress"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="10dp"-->
-<!--        android:layout_marginTop="220dp"-->
-<!--        android:layout_marginEnd="10dp"-->
-<!--        android:text="@string/your_progress" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/textListName"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="300dp"-->
-<!--        android:layout_marginBottom="10dp"-->
-<!--        android:layout_marginStart="150dp"-->
-<!--        android:layout_marginEnd="10dp"-->
-<!--        android:text="Your walks" />-->
-
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/recyclerViewSavedAddress"-->
-<!--        android:layout_width="371dp"-->
-<!--        android:layout_height="354dp"-->
-<!--        android:layout_marginStart="10dp"-->
-<!--        android:layout_marginTop="320dp"-->
-<!--        android:layout_marginEnd="10dp"-->
-<!--        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-<!--        tools:listitem="@layout/address_and_distance_item" />-->
-
-
-<!--</FrameLayout>-->
