@@ -10,7 +10,6 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 
-
 class SavedWalksPresenterImpl(
     private val iMainView: SavedWalksView, private val model: Model
 
@@ -21,13 +20,11 @@ class SavedWalksPresenterImpl(
 
     fun init() {
 
-        model.setTextLocation()
-            ?.let { model.setTextDistance()?.let { it1 -> iMainView.setEditText(it, it1) } }
+        iMainView.setEditText(model.setTextLocation(), model.setTextDistance())
         loadListWalk()
         setProgressBar()
         iMainView.updateAdapter(modelWalksScreenState.listWalks)
     }
-
 
     override fun clickAddButton() {
         if (modelWalksScreenState.isValidFields) {
@@ -47,10 +44,7 @@ class SavedWalksPresenterImpl(
         else {
             Log.d(this.toString(), "HERE")
             iMainView.makeToast(R.string.toastFirstWalk) //TODO for your first walk
-
         }
-
-
     }
 
     private fun addToList() {
@@ -75,7 +69,7 @@ class SavedWalksPresenterImpl(
 
     private fun prepareScreen() {
         iMainView.clearEditTexts()
-        iMainView.makeToast(R.string.toastAdd) //TODO for added elem
+        iMainView.makeToast(R.string.toastAdd)
         iMainView.closeKeyboards()
     }
 
@@ -97,24 +91,11 @@ class SavedWalksPresenterImpl(
     }
 
     private fun getSavedWalksListFromSharedPref(): List<SavedWalk> {
-       // val string: String? = model.setListWalks()
         val type: Type = object : TypeToken<List<SavedWalk?>?>() {}.type
         val loadList = Gson().fromJson<List<SavedWalk>>(model.setListWalks(), type)
-        //model.
-
-//        Log.d(this.toString(), "loadList =$loadList")
-//        Log.d(this.toString(), "string =$string")
-       // if(model.checkKeySavedWalksList())
-
-            updateModelWalks(listWalks = loadList)
-       // else {
-         //   Log.d(this.toString(), "HERE")
-         //   iMainView.makeToast(R.string.toastFirstWalk) //TODO for your first walk
-
-      //  }
+        updateModelWalks(listWalks = loadList)
         return loadList
     }
-
 
     private fun updateAnimationProgressBar() {
         iMainView.updateProgressBar(modelWalksScreenState.currentDistance)

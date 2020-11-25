@@ -16,7 +16,7 @@ class PreferencesProvider(context: Context) {
     fun putInt(key: String, value: Int) =
         sharedPreferences.edit().putInt(key, value).apply()
 
-    fun getInt(key: String): Int =
+    fun getDouble(key: String): Int =
         sharedPreferences.getInt(key, 0)
 
     fun clearList(){

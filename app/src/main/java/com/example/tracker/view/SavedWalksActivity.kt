@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.tracker.R
 import com.example.tracker.common.*
 import com.example.tracker.presenter.SavedWalksPresenterImpl
+import kotlinx.android.synthetic.main.activity_fields_and_progress.*
+import kotlinx.android.synthetic.main.activity_list.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 class SavedWalksActivity : AppCompatActivity(), SavedWalksView {
@@ -69,19 +71,10 @@ class SavedWalksActivity : AppCompatActivity(), SavedWalksView {
             SavedWalksAdapter(listWalks)
     }
 
-    override fun setEditText(location: String, distance: Int) {
-//        editTextLocation.setText(preferencesProvider?.getString(PreferencesProvider.KEY_STR_LOCATION))
-//        editTextDistance.setText(
-//            preferencesProvider?.getInt(PreferencesProvider.KEY_INT_DISTANCE).toString()
-//        )
+    override fun setEditText(location: String?, distance: Int?) {
         editTextLocation.setText(location)
         editTextDistance.setText(distance.toString())
     }
-
-//    override fun saveSharedPref(savedLocation: String, savedDistance: Int) {
-//        preferencesProvider.putInt(PreferencesProvider.KEY_INT_DISTANCE, savedDistance)
-//        preferencesProvider.putString(PreferencesProvider.KEY_STR_LOCATION, savedLocation)
-//    }
 
     override fun updateProgressBar(values: Int) {
         ObjectAnimator.ofInt(progressBarDistance, "progress", values)

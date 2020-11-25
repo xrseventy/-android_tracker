@@ -20,7 +20,7 @@ class Model( private val preferencesProvider: PreferencesProvider) {
         return (preferencesProvider.getString(PreferencesProvider.KEY_STR_LOCATION))
     }
     fun setTextDistance() :Int?{
-        return(preferencesProvider.getInt(PreferencesProvider.KEY_INT_DISTANCE))
+        return(preferencesProvider.getDouble(PreferencesProvider.KEY_INT_DISTANCE))
     }
     fun setListWalks():String?{
         return (preferencesProvider.getString(PreferencesProvider.KEY_STR_SAVED_WALK))

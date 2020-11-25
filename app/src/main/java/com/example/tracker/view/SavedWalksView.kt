@@ -9,7 +9,7 @@ interface SavedWalksView {
     fun updateProgress(idResString: Int, countProgress: Int)
  //   fun saveSharedPref(savedLocation: String, savedDistance: Int)
 // fun setEditText()
-    fun setEditText(location :String, distance :Int)
+    fun setEditText(location :String?, distance :Int?)
     fun closeKeyboards()
     fun updateProgressBar(values: Int)
     fun setErrorDistance(@StringRes errorTextResId: Int)
