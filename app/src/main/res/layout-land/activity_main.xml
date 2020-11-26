@@ -8,10 +8,10 @@
     tools:context=".view.SavedWalksActivity">
 
     <include
-        android:id="@+id/include"
+        android:id="@+id/fields_and_progress"
         layout="@layout/activity_fields_and_progress"
-        android:layout_width="330dp"
-        android:layout_height="224dp"
+        android:layout_width="327dp"
+        android:layout_height="282dp"
         android:layout_marginStart="8dp"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="7dp" />
@@ -46,9 +46,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/include"
+        app:layout_constraintStart_toEndOf="@+id/fields_and_progress"
         app:layout_constraintTop_toBottomOf="@+id/textListName"
-
         tools:listitem="@layout/address_and_distance_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
