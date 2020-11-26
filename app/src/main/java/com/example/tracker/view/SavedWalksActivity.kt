@@ -51,20 +51,11 @@ class SavedWalksActivity : AppCompatActivity(), SavedWalksView {
     }
 
     private fun addTextWatcherLocation() {
-        editTextLocation.addTextChangedListener(UtilityTextWatcher { s ->
-            savedWalksPresenterImpl.onLocationTextChanged(
-                s
-            )
-        })
+        editTextLocation.addTextChangedListener(UtilityTextWatcher(savedWalksPresenterImpl::onLocationTextChanged))
     }
 
-
     private fun addTextWatcherDistance() {
-        editTextDistance.addTextChangedListener(UtilityTextWatcher { s ->
-            savedWalksPresenterImpl.onDistanceTextChanged(
-                s
-            )
-        })
+        editTextDistance.addTextChangedListener(UtilityTextWatcher(savedWalksPresenterImpl::onDistanceTextChanged))
     }
 
     override fun updateAdapter(listWalks: List<SavedWalk>) {

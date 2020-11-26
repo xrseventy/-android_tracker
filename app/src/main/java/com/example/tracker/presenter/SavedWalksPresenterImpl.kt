@@ -116,12 +116,12 @@ class SavedWalksPresenterImpl(
             iMainView.setErrorLocation(textIdLocation)
     }
 
-    override fun onLocationTextChanged(s: String) {
-        updateModelWalks(location = s)
+    override fun onLocationTextChanged(inputLocation: String) {
+        updateModelWalks(location = inputLocation)
     }
 
-    override fun onDistanceTextChanged(s: String) {
-        updateModelWalks(distance = s)
+    override fun onDistanceTextChanged(inputDistance: String) {
+        updateModelWalks(distance = inputDistance)
     }
 
 }

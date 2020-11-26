@@ -18,8 +18,9 @@ class SavedWalksAdapter(private val savedListWalks: List<SavedWalk>) :
     }
 
     override fun onBindViewHolder(holder: SavedWalkViewHolder, position: Int) {
-        val savedListLocation = savedListWalks[position].location
-        val savedListDist = savedListWalks[position].distance
+        val currentPosition = savedListWalks[position]
+        val savedListLocation = currentPosition.location
+        val savedListDist = currentPosition.distance
 
         holder.bind(savedListLocation, savedListDist)
     }
