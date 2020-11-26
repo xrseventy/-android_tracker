@@ -33,7 +33,7 @@ class SavedWalksPresenterImpl(
             setProgressBar()
             prepareScreen()
             iMainView.updateAdapter(modelWalksScreenState.listWalks)
-           //model.clearSavedWalksList()
+          // model.clearSavedWalksList()
         } else
             setError()
     }

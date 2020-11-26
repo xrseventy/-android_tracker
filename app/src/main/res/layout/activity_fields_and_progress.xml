@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <include
-        android:id="@+id/fields_and_progress"
+        android:id="@+id/location_field"
         layout="@layout/location_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,26 +31,25 @@
         layout="@layout/distance_field"
         android:layout_width="wrap_content"
         android:layout_height="75dp"
-        android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fields_and_progress"></include>
+        app:layout_constraintTop_toBottomOf="@+id/location_field">
+    </include>
 
     <Button
         android:id="@+id/buttonAdd"
-        android:layout_width="94dp"
+        android:layout_width="wrap_content"
         android:layout_height="54dp"
-        android:layout_marginStart="47dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="47dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="45dp"
         android:enabled="true"
         android:text="@string/add_button"
         app:layout_constraintBottom_toTopOf="@+id/progressBarDistance"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.305"
         app:layout_constraintStart_toEndOf="@+id/distance_field"
-        app:layout_constraintTop_toBottomOf="@+id/fields_and_progress"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/location_field"
+        app:layout_constraintVertical_bias="0.3" />
 
     <TextView
         android:id="@+id/textYourProgress"
@@ -67,9 +66,11 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:max="100"
-        android:scaleY="8"
+        android:progressDrawable="@drawable/progress_bar_gradient"
+        android:scaleY="3"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textYourProgress" />
 

@@ -7,7 +7,7 @@
     tools:context=".view.SavedWalksActivity">
 
     <include
-        android:id="@+id/fields_and_progress"
+        android:id="@+id/location_field"
         layout="@layout/activity_fields_and_progress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fields_and_progress" />
+        app:layout_constraintTop_toBottomOf="@+id/location_field" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewSavedAddress"

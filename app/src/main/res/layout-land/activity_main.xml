@@ -8,7 +8,7 @@
     tools:context=".view.SavedWalksActivity">
 
     <include
-        android:id="@+id/fields_and_progress"
+        android:id="@+id/location_field"
         layout="@layout/activity_fields_and_progress"
         android:layout_width="327dp"
         android:layout_height="282dp"
@@ -46,7 +46,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/fields_and_progress"
+        app:layout_constraintStart_toEndOf="@+id/location_field"
         app:layout_constraintTop_toBottomOf="@+id/textListName"
         tools:listitem="@layout/address_and_distance_item" />
 
