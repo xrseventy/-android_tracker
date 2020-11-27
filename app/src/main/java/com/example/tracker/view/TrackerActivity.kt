@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 
 import android.widget.Toast
@@ -35,8 +36,20 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
         addTextWatcherLocation()
         addTextWatcherDistance()
         trackerpresenter.init()
+        setDistanceActionListener()
         buttonAdd.setOnClickListener {
             trackerpresenter.clickAddButton()
+        }
+    }
+
+    private fun setDistanceActionListener(){
+        editTextDistance.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEND) {
+                trackerpresenter.clickAddButton()
+                true
+            } else {
+                false
+            }
         }
     }
 
