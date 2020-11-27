@@ -2,48 +2,50 @@ package com.example.tracker.presenter
 
 import android.util.Log
 import com.example.tracker.R
-import com.example.tracker.common.Model
-import com.example.tracker.common.SavedWalk
-import com.example.tracker.model.ModelWalksScreenState
-import com.example.tracker.view.SavedWalksView
+import com.example.tracker.data.model.Model
+import com.example.tracker.data.SavedWalk
+import com.example.tracker.data.model.ModelWalksScreenState
+import com.example.tracker.view.TrackerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 
-class SavedWalksPresenterImpl(
-    private val iMainView: SavedWalksView, private val model: Model
+class TrackerPresenter(
+    private val trackerView: TrackerView, private val model: Model
 
-) : SavedWalksPresenter {
+) : Presenter {
 
     private var modelWalksScreenState: ModelWalksScreenState =
         ModelWalksScreenState("", "", model.getListWalk())
 
-    fun init() {
+    override fun init() {
 
-        iMainView.setEditText(model.setTextLocation(), model.setTextDistance())
+        trackerView.setEditText(model.setTextLocation(), model.setTextDistance())
         loadListWalk()
+        //model.clearSavedWalksList()
         setProgressBar()
-        iMainView.updateAdapter(modelWalksScreenState.listWalks)
+        trackerView.updateAdapter(modelWalksScreenState.listWalks)
     }
 
     override fun clickAddButton() {
         if (modelWalksScreenState.isValidFields) {
             addToList()
+            trackerView.setFirstLaunchMessage(false)
             saveListWalksToSharedPref()
             setProgressBar()
             prepareScreen()
-            iMainView.updateAdapter(modelWalksScreenState.listWalks)
-          // model.clearSavedWalksList()
+            trackerView.updateAdapter(modelWalksScreenState.listWalks)
         } else
             setError()
     }
-    private fun loadListWalk(){
-        if(isWalkListInSharedPref()) {
+
+    private fun loadListWalk() {
+
+        if (isWalkListInSharedPref()) {
             getSavedWalksListFromSharedPref()
-        }
-        else {
+        } else {
             Log.d(this.toString(), "HERE")
-            iMainView.makeToast(R.string.toastFirstWalk) //TODO for your first walk
+            trackerView.setFirstLaunchMessage(true)
         }
     }
 
@@ -68,9 +70,9 @@ class SavedWalksPresenterImpl(
     }
 
     private fun prepareScreen() {
-        iMainView.clearEditTexts()
-        iMainView.makeToast(R.string.toastAdd)
-        iMainView.closeKeyboards()
+        trackerView.clearEditTexts()
+        trackerView.makeToast(R.string.toastAdd)
+        trackerView.closeKeyboards()
     }
 
     private fun setProgressBar() {
@@ -86,7 +88,7 @@ class SavedWalksPresenterImpl(
         modelWalksScreenState = ModelWalksScreenState(location, distance, listWalks)
     }
 
-    private fun isWalkListInSharedPref():Boolean{
+    private fun isWalkListInSharedPref(): Boolean {
         return model.checkKeySavedWalksList()
     }
 
@@ -98,30 +100,29 @@ class SavedWalksPresenterImpl(
     }
 
     private fun updateAnimationProgressBar() {
-        iMainView.updateProgressBar(modelWalksScreenState.currentDistance)
+        trackerView.updateProgressBar(modelWalksScreenState.totalDistance)
     }
 
     private fun setProgressText() {
-        val numProgress = modelWalksScreenState.currentDistance
+        val numProgress = modelWalksScreenState.totalDistance
         val textIdProgress = R.string.your_progress
-        iMainView.updateProgress(textIdProgress, numProgress)
+        trackerView.updateProgress(textIdProgress, numProgress)
     }
 
     private fun setError() {
         val textIdDistance = R.string.errorDistance
         val textIdLocation = R.string.errorLocation
-        if (!(modelWalksScreenState.isEnterDistanceValid))
-            iMainView.setErrorDistance(textIdDistance)
-        if ((!modelWalksScreenState.isEnterLocationValid))
-            iMainView.setErrorLocation(textIdLocation)
+        if (!modelWalksScreenState.isEnterDistanceValid) {
+            trackerView.setErrorDistance(textIdDistance)
+        }
+        if (!modelWalksScreenState.isEnterLocationValid) {
+            trackerView.setErrorLocation(textIdLocation)
+        }
     }
 
-    override fun onLocationTextChanged(inputLocation: String) {
+    override fun onLocationTextChanged(inputLocation: String) =
         updateModelWalks(location = inputLocation)
-    }
 
-    override fun onDistanceTextChanged(inputDistance: String) {
+    override fun onDistanceTextChanged(inputDistance: String) =
         updateModelWalks(distance = inputDistance)
-    }
-
 }

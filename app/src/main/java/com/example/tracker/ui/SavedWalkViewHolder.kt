@@ -1,4 +1,4 @@
-package com.example.tracker.common
+package com.example.tracker.ui
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

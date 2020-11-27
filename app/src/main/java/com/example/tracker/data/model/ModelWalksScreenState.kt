@@ -1,6 +1,6 @@
-package com.example.tracker.model
+package com.example.tracker.data.model
 
-import com.example.tracker.common.SavedWalk
+import com.example.tracker.data.SavedWalk
 
 class ModelWalksScreenState(
     val enterLocation: String,
@@ -11,5 +11,5 @@ class ModelWalksScreenState(
     val isEnterDistanceValid = enterDistance.isNotEmpty()
     val isEnterLocationValid = enterLocation.isNotEmpty()
     val isValidFields = (isEnterDistanceValid && isEnterLocationValid)
-    val currentDistance = listWalks.fold(0) { acc, value -> acc + value.distance }
+    val totalDistance = listWalks.fold(0) { acc, value -> acc + value.distance }
 }

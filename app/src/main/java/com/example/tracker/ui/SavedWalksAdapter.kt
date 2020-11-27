@@ -1,9 +1,10 @@
-package com.example.tracker.common
+package com.example.tracker.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tracker.R
+import com.example.tracker.data.SavedWalk
 
 class SavedWalksAdapter(private val savedListWalks: List<SavedWalk>) :
     RecyclerView.Adapter<SavedWalkViewHolder>() {

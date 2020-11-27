@@ -1,4 +1,4 @@
-package com.example.tracker.common
+package com.example.tracker.ui
 
 import android.text.Editable
 import android.text.TextWatcher

@@ -1,4 +1,7 @@
-package com.example.tracker.common
+package com.example.tracker.data.model
+
+import com.example.tracker.data.PreferencesProvider
+import com.example.tracker.data.SavedWalk
 
 class Model( private val preferencesProvider: PreferencesProvider) {
     private val listWalks: MutableList<SavedWalk> = mutableListOf()

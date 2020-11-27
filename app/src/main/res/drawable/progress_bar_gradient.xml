@@ -6,7 +6,6 @@
                 android:color="#ebebeb" />
         </shape>
     </item>
-
     <item
         android:id="@android:id/progress">
         <clip>

@@ -3,37 +3,40 @@ package com.example.tracker.view
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import com.example.tracker.data.App
 import com.example.tracker.R
-import com.example.tracker.common.*
-import com.example.tracker.presenter.SavedWalksPresenterImpl
+import com.example.tracker.data.SavedWalk
+import com.example.tracker.ui.SavedWalksAdapter
+import com.example.tracker.presenter.TrackerPresenter
+import com.example.tracker.ui.UtilityTextWatcher
 import kotlinx.android.synthetic.main.activity_fields_and_progress.*
-import kotlinx.android.synthetic.main.activity_list.*
+
+
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.distance_field.*
 import kotlinx.android.synthetic.main.location_field.*
-import kotlinx.android.synthetic.main.activity_main.recyclerViewSavedAddress as recyclerViewSavedAddress1
 
-class SavedWalksActivity : AppCompatActivity(), SavedWalksView {
 
-    private lateinit var savedWalksPresenterImpl: SavedWalksPresenterImpl
+class TrackerActivity : AppCompatActivity(), TrackerView {
 
+    private lateinit var trackerpresenter: TrackerPresenter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val app = (application as App)
-        savedWalksPresenterImpl = SavedWalksPresenterImpl(this, app.model)
+        trackerpresenter = TrackerPresenter(this, app.model)
         addTextWatcherLocation()
         addTextWatcherDistance()
-        savedWalksPresenterImpl.init()
+        trackerpresenter.init()
         buttonAdd.setOnClickListener {
-            savedWalksPresenterImpl.clickAddButton()
+            trackerpresenter.clickAddButton()
         }
     }
 
@@ -53,11 +56,11 @@ class SavedWalksActivity : AppCompatActivity(), SavedWalksView {
     }
 
     private fun addTextWatcherLocation() {
-        editTextLocation.addTextChangedListener(UtilityTextWatcher(savedWalksPresenterImpl::onLocationTextChanged))
+        editTextLocation.addTextChangedListener(UtilityTextWatcher(trackerpresenter::onLocationTextChanged))
     }
 
     private fun addTextWatcherDistance() {
-        editTextDistance.addTextChangedListener(UtilityTextWatcher(savedWalksPresenterImpl::onDistanceTextChanged))
+        editTextDistance.addTextChangedListener(UtilityTextWatcher(trackerpresenter::onDistanceTextChanged))
     }
 
     override fun updateAdapter(listWalks: List<SavedWalk>) {
@@ -92,8 +95,16 @@ class SavedWalksActivity : AppCompatActivity(), SavedWalksView {
     }
 
     override fun makeToast(@StringRes textForToastResId: Int) {
-        val toastAdd = Toast.makeText(applicationContext, textForToastResId, Toast.LENGTH_LONG)
-        toastAdd.setGravity(Gravity.TOP, 0, 170)
-        toastAdd.show()
+        val toast = Toast.makeText(applicationContext, textForToastResId, Toast.LENGTH_LONG)
+        toast.setGravity(Gravity.CENTER, 0, 170)
+        toast.show()
+    }
+    override fun setFirstLaunchMessage(switcher : Boolean){
+        if (switcher) {
+            textViewFirstLaunch.visibility = View.VISIBLE
+        }
+        else{
+            textViewFirstLaunch.visibility = View.INVISIBLE
+        }
     }
 }

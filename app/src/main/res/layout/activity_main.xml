@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.SavedWalksActivity">
+    tools:context=".view.TrackerActivity">
 
     <include
         android:id="@+id/location_field"
@@ -51,5 +51,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textListName"
         tools:listitem="@layout/address_and_distance_item" />
+
+    <TextView
+        android:id="@+id/textViewFirstLaunch"
+        android:layout_width="287dp"
+        android:layout_height="83dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="24dp"
+        android:text="@string/firstWalkMessage"
+        android:textColor="@color/green_700"
+        android:textSize="18sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@id/recyclerViewSavedAddress"
+        app:layout_constraintStart_toStartOf="@+id/recyclerViewSavedAddress"
+        app:layout_constraintTop_toBottomOf="@+id/textListName" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
