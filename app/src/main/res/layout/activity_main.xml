@@ -21,11 +21,11 @@
 
     <TextView
         android:id="@+id/textListName"
-        android:layout_width="98dp"
+        android:layout_width="wrap_content"
         android:layout_height="27dp"
-        android:layout_marginStart="147dp"
+        android:layout_marginStart="100dp"
         android:layout_marginTop="4dp"
-        android:layout_marginEnd="148dp"
+        android:layout_marginEnd="100dp"
         android:layout_marginBottom="4dp"
         android:text="@string/text_your_walks"
         android:textColor="@color/green_700"
@@ -33,7 +33,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/recyclerViewSavedAddress"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/location_field" />
 
@@ -55,13 +55,14 @@
     <TextView
         android:id="@+id/textViewFirstLaunch"
         android:layout_width="287dp"
-        android:layout_height="83dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:text="@string/firstWalkMessage"
         android:textColor="@color/green_700"
         android:textSize="18sp"
+
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@id/recyclerViewSavedAddress"
         app:layout_constraintStart_toStartOf="@+id/recyclerViewSavedAddress"
