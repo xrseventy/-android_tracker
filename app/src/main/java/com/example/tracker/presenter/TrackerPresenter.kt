@@ -22,7 +22,6 @@ class TrackerPresenter(
 
         trackerView.setEditText(model.setTextLocation(), model.setTextDistance())
         loadListWalk()
-        //model.clearSavedWalksList()
         setProgressBar()
         trackerView.updateAdapter(modelWalksScreenState.listWalks)
     }

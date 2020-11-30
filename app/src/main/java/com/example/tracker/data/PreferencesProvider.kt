@@ -19,10 +19,6 @@ class PreferencesProvider(context: Context) {
     fun getDouble(key: String): Int =
         sharedPreferences.getInt(key, 0)
 
-    fun clearList() {
-        sharedPreferences.edit().remove(KEY_STR_SAVED_WALK).apply()
-    }
-
     fun isKey(key: String): Boolean {
         return sharedPreferences.contains(key)
     }

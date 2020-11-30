@@ -42,7 +42,7 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
         }
     }
 
-    private fun setDistanceActionListener(){
+    private fun setDistanceActionListener() {
         editTextDistance.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEND) {
                 trackerpresenter.clickAddButton()
@@ -112,11 +112,11 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
         toast.setGravity(Gravity.CENTER, 0, 170)
         toast.show()
     }
-    override fun setFirstLaunchMessage(switcher : Boolean){
+
+    override fun setFirstLaunchMessage(switcher: Boolean) {
         if (switcher) {
             textViewFirstLaunch.visibility = View.VISIBLE
-        }
-        else{
+        } else {
             textViewFirstLaunch.visibility = View.INVISIBLE
         }
     }
