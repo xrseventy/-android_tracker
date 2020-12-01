@@ -19,21 +19,12 @@ class Model(private val preferencesProvider: PreferencesProvider) {
         preferencesProvider.putString(PreferencesProvider.KEY_STR_LOCATION, savedLocation)
         preferencesProvider.putString(PreferencesProvider.KEY_STR_SAVED_WALK, savedListWalks)
     }
-
-    fun getTextLocation(): String? {
-        return (preferencesProvider.getString(PreferencesProvider.KEY_STR_LOCATION))
-    }
-
-    fun getTextDistance(): Int? {
-        return (preferencesProvider.getInt(PreferencesProvider.KEY_INT_DISTANCE))
-    }
-
     fun getListWalks(): String? {
         return (preferencesProvider.getString(PreferencesProvider.KEY_STR_SAVED_WALK))
     }
-
     fun checkKeySavedWalksList(): Boolean {
         return preferencesProvider.hasKey(PreferencesProvider.KEY_STR_SAVED_WALK)
     }
+
 
 }

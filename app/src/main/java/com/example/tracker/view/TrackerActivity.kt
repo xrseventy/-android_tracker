@@ -3,6 +3,7 @@ package com.example.tracker.view
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -11,6 +12,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.OnLifecycleEvent
 import com.example.tracker.data.App
 import com.example.tracker.R
 import com.example.tracker.data.SavedWalk
@@ -22,10 +25,8 @@ import kotlinx.android.synthetic.main.activity_fields_and_progress.*
 import kotlinx.android.synthetic.main.activity_list.*
 
 
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.distance_field.*
 import kotlinx.android.synthetic.main.location_field.*
-
 
 class TrackerActivity : AppCompatActivity(), TrackerView {
 
@@ -43,9 +44,29 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
             trackerpresenter.clickAddButton()
         }
     }
-    override fun renderView(modelScreenState : ModelWalksScreenState){
+
+    override fun renderView(modelScreenState: ModelWalksScreenState) {
+
+        setFirstLaunchMessage(modelScreenState.switcherForFirstLaunchMessage)
+        if (!modelScreenState.switcherForFirstLaunchMessage && !lifecycle.currentState.isAtLeast(
+                Lifecycle.State.STARTED
+            )
+        ) {
+            setEditText(
+                modelScreenState.listWalks.last().location,
+                (modelScreenState.listWalks.last().distance)
+            )
+        }
+        updateProgressText(modelScreenState.textIdProgress, modelScreenState.totalDistance)
         updateProgressBar(modelScreenState.totalDistance)
         updateAdapter(modelScreenState.listWalks)
+
+        if (!modelScreenState.isValidFields && modelScreenState.addFunction) {
+            if (!modelScreenState.isEnterDistanceValid)
+                setErrorDistance(modelScreenState.distanceErrorResId)
+            if (!modelScreenState.isEnterLocationValid)
+                setErrorLocation(modelScreenState.locationErrorResId)
+        }
     }
 
     private fun setDistanceActionListener() {
@@ -57,10 +78,6 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
                 false
             }
         }
-    }
-
-    override fun updateProgress(@StringRes idResString: Int, countProgress: Int) {
-        textYourProgress.text = (getString(idResString, countProgress))
     }
 
     override fun closeKeyboards() {
@@ -87,23 +104,27 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
             SavedWalksAdapter(listWalks)
     }
 
-    override fun setEditText(location: String?, distance: Int?) {
+    private fun setEditText(location: String?, distance: Int?) {
         editTextLocation.setText(location)
         editTextDistance.setText(distance.toString())
     }
 
-     private fun updateProgressBar(values: Int) {
+    private fun updateProgressText(@StringRes idResString: Int, countProgress: Int) {
+        textYourProgress.text = (getString(idResString, countProgress))
+    }
+
+    private fun updateProgressBar(values: Int) {
         ObjectAnimator.ofInt(progressBarDistance, "progress", values)
             .setDuration(200)
             .start()
     }
 
-    override fun setErrorDistance(@StringRes errorTextResId: Int) {
-        editTextDistance.error = (getString(errorTextResId))
+    private fun setErrorDistance(@StringRes errorTextResId: Int?) {
+        editTextDistance.error = (errorTextResId?.let { getString(it) })
     }
 
-    override fun setErrorLocation(@StringRes errorTextResId: Int) {
-        editTextLocation.error = (getString(errorTextResId))
+    private fun setErrorLocation(@StringRes errorTextResId: Int?) {
+        editTextLocation.error = (errorTextResId?.let { getString(it) })
     }
 
     override fun clearEditTexts() {
@@ -119,7 +140,7 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
         toast.show()
     }
 
-    override fun setFirstLaunchMessage(switcher: Boolean) {
+    private fun setFirstLaunchMessage(switcher: Boolean) {
         if (switcher) {
             textViewFirstLaunch.visibility = View.VISIBLE
         } else {
