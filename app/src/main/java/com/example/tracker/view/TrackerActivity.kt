@@ -14,10 +14,12 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.tracker.data.App
 import com.example.tracker.R
 import com.example.tracker.data.SavedWalk
+import com.example.tracker.data.model.ModelWalksScreenState
 import com.example.tracker.ui.SavedWalksAdapter
 import com.example.tracker.presenter.TrackerPresenter
 import com.example.tracker.ui.UtilityTextWatcher
 import kotlinx.android.synthetic.main.activity_fields_and_progress.*
+import kotlinx.android.synthetic.main.activity_list.*
 
 
 import kotlinx.android.synthetic.main.activity_main.*
@@ -40,6 +42,10 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
         buttonAdd.setOnClickListener {
             trackerpresenter.clickAddButton()
         }
+    }
+    override fun renderView(modelScreenState : ModelWalksScreenState){
+        updateProgressBar(modelScreenState.totalDistance)
+        updateAdapter(modelScreenState.listWalks)
     }
 
     private fun setDistanceActionListener() {
@@ -76,7 +82,7 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
         editTextDistance.addTextChangedListener(UtilityTextWatcher(trackerpresenter::onDistanceTextChanged))
     }
 
-    override fun updateAdapter(listWalks: List<SavedWalk>) {
+    private fun updateAdapter(listWalks: List<SavedWalk>) {
         recyclerViewSavedAddress.adapter =
             SavedWalksAdapter(listWalks)
     }
@@ -86,7 +92,7 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
         editTextDistance.setText(distance.toString())
     }
 
-    override fun updateProgressBar(values: Int) {
+     private fun updateProgressBar(values: Int) {
         ObjectAnimator.ofInt(progressBarDistance, "progress", values)
             .setDuration(200)
             .start()

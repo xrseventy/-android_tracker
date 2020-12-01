@@ -20,10 +20,10 @@ class TrackerPresenter(
 
     override fun init() {
 
-        trackerView.setEditText(model.setTextLocation(), model.setTextDistance())
+        trackerView.setEditText(model.getTextLocation(), model.getTextDistance())
         loadListWalk()
         setProgressBar()
-        trackerView.updateAdapter(modelWalksScreenState.listWalks)
+        trackerView.renderView(modelWalksScreenState)
     }
 
     override fun clickAddButton() {
@@ -33,7 +33,7 @@ class TrackerPresenter(
             saveListWalksToSharedPref()
             setProgressBar()
             prepareScreen()
-            trackerView.updateAdapter(modelWalksScreenState.listWalks)
+            trackerView.renderView(modelWalksScreenState)
         } else
             setError()
     }
@@ -43,7 +43,6 @@ class TrackerPresenter(
         if (isWalkListInSharedPref()) {
             getSavedWalksListFromSharedPref()
         } else {
-            Log.d(this.toString(), "HERE")
             trackerView.setFirstLaunchMessage(true)
         }
     }
@@ -75,7 +74,7 @@ class TrackerPresenter(
     }
 
     private fun setProgressBar() {
-        updateAnimationProgressBar()
+        //updateAnimationProgressBar()
         setProgressText()
     }
 
@@ -93,14 +92,14 @@ class TrackerPresenter(
 
     private fun getSavedWalksListFromSharedPref(): List<SavedWalk> {
         val type: Type = object : TypeToken<List<SavedWalk?>?>() {}.type
-        val loadList = Gson().fromJson<List<SavedWalk>>(model.setListWalks(), type)
+        val loadList = Gson().fromJson<List<SavedWalk>>(model.getListWalks(), type)
         updateModelWalks(listWalks = loadList)
         return loadList
     }
 
-    private fun updateAnimationProgressBar() {
-        trackerView.updateProgressBar(modelWalksScreenState.totalDistance)
-    }
+//    private fun updateAnimationProgressBar() {
+//        trackerView.updateProgressBar(modelWalksScreenState.totalDistance)
+//    }
 
     private fun setProgressText() {
         val numProgress = modelWalksScreenState.totalDistance

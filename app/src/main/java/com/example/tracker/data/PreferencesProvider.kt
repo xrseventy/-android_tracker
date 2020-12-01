@@ -16,10 +16,10 @@ class PreferencesProvider(context: Context) {
     fun putInt(key: String, value: Int) =
         sharedPreferences.edit().putInt(key, value).apply()
 
-    fun getDouble(key: String): Int =
+    fun getInt(key: String): Int =
         sharedPreferences.getInt(key, 0)
 
-    fun isKey(key: String): Boolean {
+    fun hasKey(key: String): Boolean {
         return sharedPreferences.contains(key)
     }
 

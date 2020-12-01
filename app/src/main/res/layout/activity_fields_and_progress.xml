@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <include
-        android:id="@+id/location_field"
+        android:id="@+id/enter_fields"
         layout="@layout/location_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="75dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/location_field">
+        app:layout_constraintTop_toBottomOf="@+id/enter_fields">
     </include>
 
     <Button
@@ -48,7 +48,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toEndOf="@+id/distance_field"
-        app:layout_constraintTop_toBottomOf="@+id/location_field"
+        app:layout_constraintTop_toBottomOf="@+id/enter_fields"
         app:layout_constraintVertical_bias="0.312" />
 
     <TextView
