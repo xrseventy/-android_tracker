@@ -1,6 +1,5 @@
 package com.example.tracker.presenter
 
-import com.example.tracker.R
 import com.example.tracker.data.model.Model
 import com.example.tracker.data.SavedWalk
 import com.example.tracker.data.model.ModelWalksScreenState
@@ -15,27 +14,27 @@ class TrackerPresenter(
 ) : Presenter {
 
     private var modelWalksScreenState: ModelWalksScreenState =
-        ModelWalksScreenState("", "", model.getListWalk())
+        ModelWalksScreenState("", "", model.getListWalk(), false)
 
     override fun init() {
-
         loadListWalk()
         trackerView.renderView(modelWalksScreenState)
     }
 
     override fun clickAddButton() {
-        modelWalksScreenState.addFunction = true
+        updateModelWalks(areErrorVisible = false)
         if (modelWalksScreenState.isValidFields) {
             addToList()
             saveListWalksToSharedPref()
             prepareScreen()
             trackerView.renderView(modelWalksScreenState)
         } else
+        {   updateModelWalks(areErrorVisible = true)
             trackerView.renderView(modelWalksScreenState)
+        }
     }
 
     private fun loadListWalk() {
-
         if (isWalkListInSharedPref()) {
             getSavedWalksListFromSharedPref()
         }
@@ -55,24 +54,22 @@ class TrackerPresenter(
     private fun saveListWalksToSharedPref() {
         val listWalksToJson = Gson().toJson(modelWalksScreenState.listWalks)
         model.saveSharedPref(
-            modelWalksScreenState.enterLocation,
-            modelWalksScreenState.enterDistance.toInt(),
             listWalksToJson
         )
     }
 
     private fun prepareScreen() {
         trackerView.clearEditTexts()
-        trackerView.makeToast(R.string.toastAdd)
         trackerView.closeKeyboards()
     }
 
     private fun updateModelWalks(
         location: String = modelWalksScreenState.enterLocation,
         distance: String = modelWalksScreenState.enterDistance,
-        listWalks: List<SavedWalk> = modelWalksScreenState.listWalks
+        listWalks: List<SavedWalk> = modelWalksScreenState.listWalks,
+        areErrorVisible: Boolean = modelWalksScreenState.areErrorsVisible
     ) {
-        modelWalksScreenState = ModelWalksScreenState(location, distance, listWalks)
+        modelWalksScreenState = ModelWalksScreenState(location, distance, listWalks, areErrorVisible)
     }
 
     private fun isWalkListInSharedPref(): Boolean {
@@ -81,9 +78,9 @@ class TrackerPresenter(
 
     private fun getSavedWalksListFromSharedPref(): List<SavedWalk> {
         val type: Type = object : TypeToken<List<SavedWalk?>?>() {}.type
-        val loadList = Gson().fromJson<List<SavedWalk>>(model.getListWalks(), type)
-        updateModelWalks(listWalks = loadList)
-        return loadList
+        val loadedList = Gson().fromJson<List<SavedWalk>>(model.getListWalks(), type)
+        updateModelWalks(listWalks = loadedList)
+        return loadedList
     }
 
     override fun onLocationTextChanged(inputLocation: String) =

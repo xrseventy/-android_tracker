@@ -14,9 +14,7 @@ class Model(private val preferencesProvider: PreferencesProvider) {
         return listWalks
     }
 
-    fun saveSharedPref(savedLocation: String, savedDistance: Int, savedListWalks: String) {
-        preferencesProvider.putInt(PreferencesProvider.KEY_INT_DISTANCE, savedDistance)
-        preferencesProvider.putString(PreferencesProvider.KEY_STR_LOCATION, savedLocation)
+    fun saveSharedPref( savedListWalks: String) {
         preferencesProvider.putString(PreferencesProvider.KEY_STR_SAVED_WALK, savedListWalks)
     }
     fun getListWalks(): String? {

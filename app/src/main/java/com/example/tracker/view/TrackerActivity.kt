@@ -3,17 +3,13 @@ package com.example.tracker.view
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 
-import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.OnLifecycleEvent
 import com.example.tracker.data.App
 import com.example.tracker.R
 import com.example.tracker.data.SavedWalk
@@ -30,49 +26,38 @@ import kotlinx.android.synthetic.main.location_field.*
 
 class TrackerActivity : AppCompatActivity(), TrackerView {
 
-    private lateinit var trackerpresenter: TrackerPresenter
+    private lateinit var trackerPresenter: TrackerPresenter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val app = (application as App)
-        trackerpresenter = TrackerPresenter(this, app.model)
+        trackerPresenter = TrackerPresenter(this, app.model)
         addTextWatcherLocation()
         addTextWatcherDistance()
-        trackerpresenter.init()
+        trackerPresenter.init()
         setDistanceActionListener()
         buttonAdd.setOnClickListener {
-            trackerpresenter.clickAddButton()
+            trackerPresenter.clickAddButton()
         }
     }
 
-    override fun renderView(modelScreenState: ModelWalksScreenState) {
-
-        setFirstLaunchMessage(modelScreenState.switcherForFirstLaunchMessage)
-        if (!modelScreenState.switcherForFirstLaunchMessage && !lifecycle.currentState.isAtLeast(
-                Lifecycle.State.STARTED
-            )
-        ) {
-            setEditText(
-                modelScreenState.listWalks.last().location,
-                (modelScreenState.listWalks.last().distance)
-            )
-        }
-        updateProgressText(modelScreenState.textIdProgress, modelScreenState.totalDistance)
-        updateProgressBar(modelScreenState.totalDistance)
-        updateAdapter(modelScreenState.listWalks)
-
-        if (!modelScreenState.isValidFields && modelScreenState.addFunction) {
-            if (!modelScreenState.isEnterDistanceValid)
-                setErrorDistance(modelScreenState.distanceErrorResId)
-            if (!modelScreenState.isEnterLocationValid)
-                setErrorLocation(modelScreenState.locationErrorResId)
+    override fun renderView(model: ModelWalksScreenState) {
+        setFirstLaunchMessage(model.isFirstLaunchMessageVisible)
+        updateProgressText(model.totalDistance)
+        updateProgressBar(model.totalDistance)
+        updateAdapter(model.listWalks)
+        if (model.areErrorsVisible) {
+            if (!model.isEnterDistanceValid)
+                setErrorDistance(model.distanceErrorResId)
+            if (!model.isEnterLocationValid)
+                setErrorLocation(model.locationErrorResId)
         }
     }
 
     private fun setDistanceActionListener() {
         editTextDistance.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEND) {
-                trackerpresenter.clickAddButton()
+                trackerPresenter.clickAddButton()
                 true
             } else {
                 false
@@ -92,25 +77,19 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
     }
 
     private fun addTextWatcherLocation() {
-        editTextLocation.addTextChangedListener(UtilityTextWatcher(trackerpresenter::onLocationTextChanged))
+        editTextLocation.addTextChangedListener(UtilityTextWatcher(trackerPresenter::onLocationTextChanged))
     }
 
     private fun addTextWatcherDistance() {
-        editTextDistance.addTextChangedListener(UtilityTextWatcher(trackerpresenter::onDistanceTextChanged))
+        editTextDistance.addTextChangedListener(UtilityTextWatcher(trackerPresenter::onDistanceTextChanged))
     }
 
     private fun updateAdapter(listWalks: List<SavedWalk>) {
-        recyclerViewSavedAddress.adapter =
-            SavedWalksAdapter(listWalks)
+        recyclerViewSavedAddress.adapter = SavedWalksAdapter(listWalks)
     }
 
-    private fun setEditText(location: String?, distance: Int?) {
-        editTextLocation.setText(location)
-        editTextDistance.setText(distance.toString())
-    }
-
-    private fun updateProgressText(@StringRes idResString: Int, countProgress: Int) {
-        textYourProgress.text = (getString(idResString, countProgress))
+    private fun updateProgressText(countProgress: Int) {
+        textYourProgress.text = (getString( R.string.your_progress, countProgress))
     }
 
     private fun updateProgressBar(values: Int) {
@@ -132,12 +111,6 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
         editTextLocation.clearFocus()
         editTextDistance.editableText.clear()
         editTextDistance.clearFocus()
-    }
-
-    override fun makeToast(@StringRes textForToastResId: Int) {
-        val toast = Toast.makeText(applicationContext, textForToastResId, Toast.LENGTH_LONG)
-        toast.setGravity(Gravity.CENTER, 0, 170)
-        toast.show()
     }
 
     private fun setFirstLaunchMessage(switcher: Boolean) {
