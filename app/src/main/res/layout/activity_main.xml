@@ -16,9 +16,7 @@
         android:layout_marginBottom="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
-
-    </include>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <include
         android:id="@+id/list_field"
@@ -29,7 +27,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/enter_fields" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

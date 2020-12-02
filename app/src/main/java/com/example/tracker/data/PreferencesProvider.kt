@@ -13,12 +13,6 @@ class PreferencesProvider(context: Context) {
     fun getString(key: String): String? =
         sharedPreferences.getString(key, null)
 
-    fun putInt(key: String, value: Int) =
-        sharedPreferences.edit().putInt(key, value).apply()
-
-    fun getInt(key: String): Int =
-        sharedPreferences.getInt(key, 0)
-
     fun hasKey(key: String): Boolean {
         return sharedPreferences.contains(key)
     }
@@ -26,7 +20,6 @@ class PreferencesProvider(context: Context) {
     companion object {
         const val KEY_STR_SAVED_WALK = "SavedWalk"
         const val KEY_STR_NAME_FOLDER = "sharedPrefFile"
-        const val KEY_STR_LOCATION = "Location"
-        const val KEY_INT_DISTANCE = "Distance"
     }
+
 }

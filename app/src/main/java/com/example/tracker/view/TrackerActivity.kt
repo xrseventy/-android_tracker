@@ -46,12 +46,13 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
         updateProgressText(model.totalDistance)
         updateProgressBar(model.totalDistance)
         updateAdapter(model.listWalks)
-        if (model.areErrorsVisible) {
-            if (!model.isEnterDistanceValid)
-                setErrorDistance(model.distanceErrorResId)
-            if (!model.isEnterLocationValid)
-                setErrorLocation(model.locationErrorResId)
+        if (!model.isEnterDistanceValid && model.areErrorsVisible) {
+            setErrorDistance(model.distanceErrorResId)
         }
+        if (!model.isEnterLocationValid && model.areErrorsVisible) {
+            setErrorLocation(model.locationErrorResId)
+        }
+
     }
 
     private fun setDistanceActionListener() {
@@ -89,7 +90,7 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
     }
 
     private fun updateProgressText(countProgress: Int) {
-        textYourProgress.text = (getString( R.string.your_progress, countProgress))
+        textYourProgress.text = (getString(R.string.your_progress, countProgress))
     }
 
     private fun updateProgressBar(values: Int) {

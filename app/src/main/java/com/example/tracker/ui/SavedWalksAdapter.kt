@@ -22,11 +22,9 @@ class SavedWalksAdapter(private val savedListWalks: List<SavedWalk>) :
         val currentPosition = savedListWalks[position]
         val savedListLocation = currentPosition.location
         val savedListDist = currentPosition.distance
-
         holder.bind(savedListLocation, savedListDist)
     }
 
     override fun getItemCount(): Int =
         savedListWalks.size
-
 }

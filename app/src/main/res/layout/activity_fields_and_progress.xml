@@ -23,8 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/textNameList"
-        tools:layout_editor_absoluteX="0dp">
-    </include>
+        tools:layout_editor_absoluteX="0dp"/>
 
     <include
         android:id="@+id/distance_field"
@@ -32,8 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="75dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enter_fields">
-    </include>
+        app:layout_constraintTop_toBottomOf="@+id/enter_fields" />
 
     <Button
         android:id="@+id/buttonAdd"

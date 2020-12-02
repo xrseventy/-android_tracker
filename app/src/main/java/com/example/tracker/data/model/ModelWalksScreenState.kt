@@ -18,7 +18,7 @@ class ModelWalksScreenState(
     val totalDistance = listWalks.fold(0) { acc, value -> acc + value.distance }
     val isFirstLaunchMessageVisible = listWalks.isEmpty()
 
-   @StringRes
+    @StringRes
     val distanceErrorResId: Int? = if (!isEnterDistanceValid) {
         R.string.errorDistance
     } else {
