@@ -15,7 +15,7 @@ class ModelWalksScreenState(
     val isEnterDistanceValid = enterDistance.isNotEmpty()
     val isEnterLocationValid = enterLocation.isNotEmpty()
     val isValidFields = (isEnterDistanceValid && isEnterLocationValid)
-    val totalDistance = listWalks.fold(0) { acc, value -> acc + value.distance }
+    val totalDistance = listWalks.fold(0.0) { acc, value -> acc + value.distance}
     val isFirstLaunchMessageVisible = listWalks.isEmpty()
 
     @StringRes

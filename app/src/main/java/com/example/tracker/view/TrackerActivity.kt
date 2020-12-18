@@ -89,12 +89,12 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
         recyclerViewSavedAddress.adapter = SavedWalksAdapter(listWalks)
     }
 
-    private fun updateProgressText(countProgress: Int) {
+    private fun updateProgressText(countProgress: Double) {
         textYourProgress.text = (getString(R.string.your_progress, countProgress))
     }
 
-    private fun updateProgressBar(values: Int) {
-        ObjectAnimator.ofInt(progressBarDistance, "progress", values)
+    private fun updateProgressBar(values: Double) {
+        ObjectAnimator.ofInt(progressBarDistance, "progress", values.toInt())
             .setDuration(200)
             .start()
     }

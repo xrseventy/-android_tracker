@@ -5,6 +5,8 @@ import com.example.tracker.data.SavedWalk
 
 class Model(private val preferencesProvider: PreferencesProvider) {
     private val listWalks: MutableList<SavedWalk> = mutableListOf()
+    private val editor = preferencesProvider.editor
+
 
     fun addWalk(walk: SavedWalk) {
         listWalks.add(walk)
@@ -15,6 +17,7 @@ class Model(private val preferencesProvider: PreferencesProvider) {
     }
 
     fun saveSharedPref(savedListWalks: String) {
+        preferencesProvider.editor
         preferencesProvider.putString(PreferencesProvider.KEY_STR_SAVED_WALK, savedListWalks)
     }
 
@@ -24,5 +27,9 @@ class Model(private val preferencesProvider: PreferencesProvider) {
 
     fun checkKeySavedWalksList(): Boolean {
         return preferencesProvider.hasKey(PreferencesProvider.KEY_STR_SAVED_WALK)
+    }
+
+    fun clearSavedWalksList(){
+        return preferencesProvider.clearList()
     }
 }

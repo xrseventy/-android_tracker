@@ -17,6 +17,7 @@ class TrackerPresenter(
         ModelWalksScreenState("", "", model.getListWalk(), false)
 
     override fun init() {
+       // model.clearSavedWalksList()
         loadListWalk()
         trackerView.renderView(modelWalksScreenState)
     }
@@ -43,7 +44,7 @@ class TrackerPresenter(
     private fun addToList() {
         val savedWalksClass = SavedWalk(
             modelWalksScreenState.enterLocation,
-            modelWalksScreenState.enterDistance.toInt()
+            modelWalksScreenState.enterDistance.toDouble()
         )
         val newList = modelWalksScreenState.listWalks.toMutableList()
         newList.add(savedWalksClass)

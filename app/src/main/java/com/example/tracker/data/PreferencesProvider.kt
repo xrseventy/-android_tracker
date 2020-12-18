@@ -6,15 +6,22 @@ class PreferencesProvider(context: Context) {
 
     private val sharedPreferences =
         context.getSharedPreferences(KEY_STR_NAME_FOLDER, Context.MODE_PRIVATE)
+     val editor = sharedPreferences.edit()
 
-    fun putString(key: String, value: String) =
-        sharedPreferences.edit().putString(key, value).apply()
+
+    fun putString(key: String, value: String) {
+        editor.putString(key, value).apply()
+    }
 
     fun getString(key: String): String? =
         sharedPreferences.getString(key, null)
 
     fun hasKey(key: String): Boolean {
         return sharedPreferences.contains(key)
+    }
+
+    fun clearList() {
+        sharedPreferences.edit().remove(KEY_STR_SAVED_WALK).apply()
     }
 
     companion object {

@@ -17,24 +17,16 @@ class ModelTest {
     val listwalk : SavedWalk = SavedWalk("Kolomentskoe", 5)
     val testListWalk : MutableList<SavedWalk> = mutableListOf(listwalk)
 
-
     @Test
-    fun addWalk() {
-
-       // testListWalk.add(listwalk)
+    fun `add Walk to list invoke add function, then equals test and original list `() {
         listWalks.add(listwalk)
         assertEquals(testListWalk, listWalks)
         println(testListWalk[0].location)
         println(testListWalk[0].distance)
-
-
     }
 
-
-
     @Test
-    fun saveSharedPref() {
-
+    fun ` `() {
        val savedListWalks: String = "{\"Kolomentskoe\", 5}"
     }
 
