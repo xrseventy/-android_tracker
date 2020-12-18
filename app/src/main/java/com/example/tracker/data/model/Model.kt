@@ -29,7 +29,7 @@ class Model(private val preferencesProvider: PreferencesProvider) {
         return preferencesProvider.hasKey(PreferencesProvider.KEY_STR_SAVED_WALK)
     }
 
-    fun clearSavedWalksList(){
-        return preferencesProvider.clearList()
-    }
+//    fun clearSavedWalksList(){
+//        return preferencesProvider.clearList()
+//    }
 }
