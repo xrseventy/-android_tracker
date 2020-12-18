@@ -17,7 +17,6 @@ class TrackerPresenter(
         ModelWalksScreenState("", "", model.getListWalk(), false)
 
     override fun init() {
-       // model.clearSavedWalksList()
         loadListWalk()
         trackerView.renderView(modelWalksScreenState)
     }

@@ -20,10 +20,6 @@ class PreferencesProvider(context: Context) {
         return sharedPreferences.contains(key)
     }
 
-//    fun clearList() {
-//        sharedPreferences.edit().remove(KEY_STR_SAVED_WALK).apply()
-//    }
-
     companion object {
         const val KEY_STR_SAVED_WALK = "SavedWalk"
         const val KEY_STR_NAME_FOLDER = "sharedPrefFile"
