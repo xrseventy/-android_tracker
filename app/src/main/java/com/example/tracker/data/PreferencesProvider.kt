@@ -6,11 +6,11 @@ class PreferencesProvider(context: Context) {
 
     private val sharedPreferences =
         context.getSharedPreferences(KEY_STR_NAME_FOLDER, Context.MODE_PRIVATE)
-     val editor = sharedPreferences.edit()
+    // val editor = sharedPreferences.edit()
 
 
     fun putString(key: String, value: String) {
-        editor.putString(key, value).apply()
+        sharedPreferences.edit().putString(key, value).apply()
     }
 
     fun getString(key: String): String? =

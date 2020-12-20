@@ -11,12 +11,12 @@ class Model(private val preferencesProvider: PreferencesProvider) {
     }
 
     fun getListWalk(): List<SavedWalk> {
-        return listWalks
+        return listWalks //whenever
     }
 
     fun saveSharedPref(savedListWalks: String) {
         preferencesProvider.putString(PreferencesProvider.KEY_STR_SAVED_WALK, savedListWalks)
-    }
+    }//verify что вызвался putString
 
     fun getListWalks(): String? {
         return (preferencesProvider.getString(PreferencesProvider.KEY_STR_SAVED_WALK))
@@ -25,4 +25,5 @@ class Model(private val preferencesProvider: PreferencesProvider) {
     fun checkKeySavedWalksList(): Boolean {
         return preferencesProvider.hasKey(PreferencesProvider.KEY_STR_SAVED_WALK)
     }
+
 }
