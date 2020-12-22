@@ -38,7 +38,6 @@ class ModelTest {
             "KEY",
             "String"
         )
-
     }
 
     @Test

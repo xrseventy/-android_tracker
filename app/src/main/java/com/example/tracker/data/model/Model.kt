@@ -10,15 +10,15 @@ class Model(private val preferencesProvider: PreferencesProvider) {
         listWalks.add(walk)
     }
 
-    fun getListWalk(): List<SavedWalk> {
-        return listWalks //whenever
+    fun getListWalksFromModel(): List<SavedWalk> {
+        return listWalks
     }
 
     fun saveSharedPref(savedListWalks: String) {
         preferencesProvider.putString(PreferencesProvider.KEY_STR_SAVED_WALK, savedListWalks)
-    }//verify что вызвался putString
+    }
 
-    fun getListWalks(): String? {
+    fun getListWalksFromSharedPref(): String? {
         return (preferencesProvider.getString(PreferencesProvider.KEY_STR_SAVED_WALK))
     }
 

@@ -14,7 +14,7 @@ class TrackerPresenter(
 ) : Presenter {
 
     private var modelWalksScreenState: ModelWalksScreenState =
-        ModelWalksScreenState("", "", model.getListWalk(), false)
+        ModelWalksScreenState("", "", model.getListWalksFromModel(), false)
 
     override fun init() {
         loadListWalk()
@@ -33,6 +33,11 @@ class TrackerPresenter(
             trackerView.renderView(modelWalksScreenState)
         }
     }
+    override fun onLocationTextChanged(inputLocation: String) =
+        updateModelWalks(location = inputLocation)
+
+    override fun onDistanceTextChanged(inputDistance: String) =
+        updateModelWalks(distance = inputDistance)
 
     private fun loadListWalk() {
         if (isWalkListInSharedPref()) {
@@ -78,14 +83,8 @@ class TrackerPresenter(
 
     private fun getSavedWalksListFromSharedPref(): List<SavedWalk> {
         val type: Type = object : TypeToken<List<SavedWalk?>?>() {}.type
-        val loadedList = Gson().fromJson<List<SavedWalk>>(model.getListWalks(), type)
+        val loadedList = Gson().fromJson<List<SavedWalk>>(model.getListWalksFromSharedPref(), type)
         updateModelWalks(listWalks = loadedList)
         return loadedList
     }
-
-    override fun onLocationTextChanged(inputLocation: String) =
-        updateModelWalks(location = inputLocation)
-
-    override fun onDistanceTextChanged(inputDistance: String) =
-        updateModelWalks(distance = inputDistance)
 }
