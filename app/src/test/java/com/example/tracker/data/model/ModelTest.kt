@@ -18,18 +18,7 @@ import org.mockito.Mockito
 
 class ModelTest {
 
-//    private val listWalks: MutableList<SavedWalk> = mutableListOf()
-//    private val testObjectWalk: SavedWalk = SavedWalk("Kolomentskoe", 5.0)
-//    private val testListWalk: MutableList<SavedWalk> = mutableListOf(testObjectWalk)
     private val preferencesProviderMock: PreferencesProvider = mock()
-
-// now this test and for fun getListWalk() is too much
-//    @Test
-//    fun `add Walk to list invoke add function, then equals test and original list `() {
-//        listWalks.add(testObjectWalk)
-//        assertEquals(testListWalk, listWalks)
-//    }
-
 
     @Test
     fun `putString is invoked`() {
