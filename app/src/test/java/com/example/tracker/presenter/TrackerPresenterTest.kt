@@ -43,7 +43,6 @@ class TrackerPresenterTest {
             ModelWalksScreenState("", "7.0", testListWalk , true)
         assertEquals( expectModelWalksScreenStateMock.enterLocation, modelWalksScreenStateMock.enterLocation)
         assertEquals( expectModelWalksScreenStateMock.enterDistance, modelWalksScreenStateMock.enterDistance)
-        assertEquals( expectModelWalksScreenStateMock.listWalks, modelWalksScreenStateMock.listWalks)
         assertEquals( expectModelWalksScreenStateMock.areErrorsVisible, modelWalksScreenStateMock.areErrorsVisible)
 
     }
@@ -55,7 +54,6 @@ class TrackerPresenterTest {
             ModelWalksScreenState("", "7.0", testListWalk , true)
         assertEquals( expectModelWalksScreenStateMock.enterLocation, modelWalksScreenStateMock.enterLocation)
         assertEquals( expectModelWalksScreenStateMock.enterDistance, modelWalksScreenStateMock.enterDistance)
-        assertEquals( expectModelWalksScreenStateMock.listWalks, modelWalksScreenStateMock.listWalks)
         assertEquals( expectModelWalksScreenStateMock.areErrorsVisible, modelWalksScreenStateMock.areErrorsVisible)
     }
 
@@ -66,7 +64,6 @@ class TrackerPresenterTest {
             ModelWalksScreenState("", "", testListWalk , true)
         assertEquals( expectModelWalksScreenStateMock.enterLocation, modelWalksScreenStateMock.enterLocation)
         assertEquals( expectModelWalksScreenStateMock.enterDistance, modelWalksScreenStateMock.enterDistance)
-        assertEquals( expectModelWalksScreenStateMock.listWalks, modelWalksScreenStateMock.listWalks)
         assertEquals( expectModelWalksScreenStateMock.areErrorsVisible, modelWalksScreenStateMock.areErrorsVisible)
     }
 
