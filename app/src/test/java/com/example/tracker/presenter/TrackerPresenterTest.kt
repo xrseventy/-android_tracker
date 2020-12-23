@@ -27,6 +27,7 @@ class TrackerPresenterTest {
 
     @Test
     fun `success updateModelWalks after click `() {
+
         updateModelWalksTest("Alice's wood", "7.0", testListWalk , false)
         val expectModelWalksScreenStateMock: ModelWalksScreenState =
             ModelWalksScreenState("Alice's wood", "7.0", testListWalk , false)

@@ -19,39 +19,49 @@ import org.mockito.Mockito
 class ModelTest {
 
     private val preferencesProviderMock: PreferencesProvider = mock()
-
+    private val model: Model = Model(preferencesProviderMock)
     @Test
     fun `putString is invoked`() {
-        var putStrMock = preferencesProviderMock.putString("KEY", "String")
+        var putStrMock = preferencesProviderMock.putString(KEY_STR_SAVED_WALK, "String")
         verify(preferencesProviderMock).putString(
-            "KEY",
+            KEY_STR_SAVED_WALK,
             "String"
         )
     }
 
     @Test
     fun `getString for first launch app emptyList`() {
-        whenever(preferencesProviderMock.getString("KEY_FIRST_LAUNCH_LIST")).thenReturn("")
+        whenever(preferencesProviderMock.getString(KEY_STR_SAVED_WALK)).thenReturn("")
+        val testResult: String? =  model.getListWalksFromSharedPref()
+        assertEquals("", testResult )
     }
 
     @Test
     fun `getString for second launch app`() {
-        whenever(preferencesProviderMock.getString("KEY_SECOND_LAUNCH_LIST")).thenReturn("Kolomentskoe, 5.0")
+        whenever(preferencesProviderMock.getString(KEY_STR_SAVED_WALK)).thenReturn("Kolomentskoe, 5.0")
+        val testResult: String? =  model.getListWalksFromSharedPref()
+        assertEquals("Kolomentskoe, 5.0", testResult )
     }
 
     @Test
     fun `getString for null list`() {
-        whenever(preferencesProviderMock.getString("KEY_NULL_LIST")).thenReturn(null)
+        whenever(preferencesProviderMock.getString(KEY_STR_SAVED_WALK)).thenReturn(null)
+        val testResult: String? =  model.getListWalksFromSharedPref()
+        assertEquals(null, testResult )
     }
 
     @Test
     fun `hasKey with key true`() {
-        whenever(preferencesProviderMock.hasKey("KEY")).thenReturn(true)
+        whenever(preferencesProviderMock.hasKey(KEY_STR_SAVED_WALK)).thenReturn(true)
+        model.checkKeySavedWalksList()
     }
 
     @Test
     fun `hasKey without key`() {
-        whenever(preferencesProviderMock.hasKey("")).thenReturn(false)
+       whenever(preferencesProviderMock.hasKey("")).thenReturn(false)
+       model.checkKeySavedWalksList()
     }
+    companion object {
+        const val KEY_STR_SAVED_WALK = "SavedWalk"}
 
 }
