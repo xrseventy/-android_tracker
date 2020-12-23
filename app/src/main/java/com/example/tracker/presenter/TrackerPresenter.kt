@@ -68,7 +68,7 @@ class TrackerPresenter(
         trackerView.closeKeyboards()
     }
 
-    private fun updateModelWalks(
+     private fun updateModelWalks(
         location: String = modelWalksScreenState.enterLocation,
         distance: String = modelWalksScreenState.enterDistance,
         listWalks: List<SavedWalk> = modelWalksScreenState.listWalks,
