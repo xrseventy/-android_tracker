@@ -1,20 +1,12 @@
 package com.example.tracker.data.model
 
-import android.content.Context
-import android.content.SharedPreferences.Editor
+
 import com.example.tracker.data.PreferencesProvider
-import com.example.tracker.data.SavedWalk
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
-import junit.framework.Assert.assertEquals
-import org.junit.Before
+import junit.framework.TestCase.assertEquals
 import org.junit.Test
-import org.mockito.ArgumentMatchers.anyInt
-import org.mockito.ArgumentMatchers.anyString
-import org.mockito.Mock
-import org.mockito.Mockito
-
 
 class ModelTest {
 
@@ -23,7 +15,7 @@ class ModelTest {
 
     @Test
     fun `putString is invoked`() {
-        var putStrMock = preferencesProviderMock.putString(KEY_STR_SAVED_WALK, "String")
+        model.saveSharedPref("String")
         verify(preferencesProviderMock).putString(
             KEY_STR_SAVED_WALK,
             "String"
@@ -54,13 +46,15 @@ class ModelTest {
     @Test
     fun `hasKey with key true`() {
         whenever(preferencesProviderMock.hasKey(KEY_STR_SAVED_WALK)).thenReturn(true)
-        model.checkKeySavedWalksList()
+        val testResult: Boolean = model.checkKeySavedWalksList()
+        assertEquals(true, testResult)
     }
 
     @Test
     fun `hasKey without key`() {
         whenever(preferencesProviderMock.hasKey("")).thenReturn(false)
-        model.checkKeySavedWalksList()
+        val testResult: Boolean = model.checkKeySavedWalksList()
+        assertEquals(false, testResult)
     }
 
     companion object {
