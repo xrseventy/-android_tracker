@@ -3,12 +3,16 @@ package com.example.tracker.view
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat.setAlpha
 import androidx.lifecycle.Lifecycle
 import com.example.tracker.data.App
 import com.example.tracker.R
@@ -19,6 +23,7 @@ import com.example.tracker.presenter.TrackerPresenter
 import com.example.tracker.ui.UtilityTextWatcher
 import kotlinx.android.synthetic.main.activity_fields_and_progress.*
 import kotlinx.android.synthetic.main.activity_list.*
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 import kotlinx.android.synthetic.main.distance_field.*
@@ -27,10 +32,19 @@ import kotlinx.android.synthetic.main.location_field.*
 class TrackerActivity : AppCompatActivity(), TrackerView {
 
     private lateinit var trackerPresenter: TrackerPresenter
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         val app = (application as App)
+        val congrulatFragment = CongrulatFragment()
+
+        supportFragmentManager.beginTransaction()
+            .apply{replace(R.id.frameLayoutFragment, congrulatFragment)}
+            .commit()
         trackerPresenter = TrackerPresenter(this, app.model)
         addTextWatcherLocation()
         addTextWatcherDistance()
@@ -43,6 +57,7 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
 
     override fun renderView(model: ModelWalksScreenState) {
         setFirstLaunchMessage(model.isFirstLaunchMessageVisible)
+        showCongrutilationsFragment(model.congrulationVisible)
         updateProgressText(model.totalDistance)
         updateProgressBar(model.totalDistance)
         updateAdapter(model.listWalks)
@@ -54,6 +69,10 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
         }
 
     }
+    override fun closeKeyboards() {
+        closeKeyboard(editTextLocation)
+        closeKeyboard(editTextDistance)
+    }
 
     private fun setDistanceActionListener() {
         editTextDistance.setOnEditorActionListener { _, actionId, _ ->
@@ -64,11 +83,6 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
                 false
             }
         }
-    }
-
-    override fun closeKeyboards() {
-        closeKeyboard(editTextLocation)
-        closeKeyboard(editTextDistance)
     }
 
     private fun closeKeyboard(view: View) {
@@ -120,5 +134,22 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
         } else {
             textViewFirstLaunch.visibility = View.INVISIBLE
         }
+    }
+    private fun updateCongratilationsText(countProgress: Double) {
+        textYourProgress.text = (getString(R.string.text_view_congrat_info, countProgress))
+    }
+
+    private fun showCongrutilationsFragment(switcher: Boolean) {
+        if (switcher) {
+            frameLayoutFragment.visibility = View.VISIBLE
+        } else {
+            frameLayoutFragment.visibility = View.INVISIBLE
+        }
+    }
+    //TODO del toast
+    override fun toast() {
+        val toastAdd = Toast.makeText(applicationContext, "Best!", Toast.LENGTH_LONG)
+        toastAdd.setGravity(Gravity.TOP, 0, 170)
+        toastAdd.show()
     }
 }

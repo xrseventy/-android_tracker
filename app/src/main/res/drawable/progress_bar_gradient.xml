@@ -16,8 +16,6 @@
                     android:centerY="0.5"
                     android:endColor="@color/blue_300"
                     android:gradientRadius="100dip"
-
-
                     android:startColor="@color/yellow_500" />
             </shape>
         </clip>

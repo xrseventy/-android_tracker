@@ -1,5 +1,9 @@
 package com.example.tracker.presenter
 
+import android.content.Context
+import android.util.Log
+import android.view.Gravity
+import android.widget.Toast
 import com.example.tracker.data.model.Model
 import com.example.tracker.data.SavedWalk
 import com.example.tracker.data.model.ModelWalksScreenState
@@ -14,16 +18,19 @@ class TrackerPresenter(
 ) : Presenter {
 
     private var modelWalksScreenState: ModelWalksScreenState =
-        ModelWalksScreenState("", "", model.getListWalksFromModel(), false)
+        ModelWalksScreenState("", "", model.getListWalksFromModel(), areErrorsVisible = false, congrulationVisible = false)
 
     override fun init() {
+       // model.clearSavedWalksList()
         loadListWalk()
         trackerView.renderView(modelWalksScreenState)
+        Log.d(this.toString(), "num ${modelWalksScreenState.num}")
     }
 
     override fun clickAddButton() {
         updateModelWalks(areErrorVisible = false)
         if (modelWalksScreenState.isValidFields) {
+            checkBestDistance()
             addToList()
             saveListWalksToSharedPref()
             prepareScreen()
@@ -64,6 +71,7 @@ class TrackerPresenter(
     }
 
     private fun prepareScreen() {
+
         trackerView.clearEditTexts()
         trackerView.closeKeyboards()
     }
@@ -72,9 +80,10 @@ class TrackerPresenter(
         location: String = modelWalksScreenState.enterLocation,
         distance: String = modelWalksScreenState.enterDistance,
         listWalks: List<SavedWalk> = modelWalksScreenState.listWalks,
-        areErrorVisible: Boolean = modelWalksScreenState.areErrorsVisible
+        areErrorVisible: Boolean = modelWalksScreenState.areErrorsVisible,
+        congrulationVisible: Boolean = modelWalksScreenState.congrulationVisible
     ) {
-        modelWalksScreenState = ModelWalksScreenState(location, distance, listWalks, areErrorVisible)
+        modelWalksScreenState = ModelWalksScreenState(location, distance, listWalks, areErrorVisible, congrulationVisible)
     }
 
     private fun isWalkListInSharedPref(): Boolean {
@@ -86,5 +95,18 @@ class TrackerPresenter(
         val loadedList = Gson().fromJson<List<SavedWalk>>(model.getListWalksFromSharedPref(), type)
         updateModelWalks(listWalks = loadedList)
         return loadedList
+    }
+
+    private fun findBiggestDistance(){
+        //if (modelWalksScreenState.enterDistance.toDouble() > modelWalksScreenState.isBiggestDistance)
+        Log.d(this.toString(), "num ${modelWalksScreenState.num}")
+    }
+
+    //TODO del toast
+    private fun  checkBestDistance() {
+        if (modelWalksScreenState.enterDistance.toDouble() > modelWalksScreenState.num!!) {
+            updateModelWalks(congrulationVisible = true)
+            trackerView.toast()
+        }
     }
 }

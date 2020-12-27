@@ -6,4 +6,6 @@ interface TrackerView {
     fun renderView(model :ModelWalksScreenState)
     fun closeKeyboards()
     fun clearEditTexts()
+    //TODO del toast
+    fun toast()
 }

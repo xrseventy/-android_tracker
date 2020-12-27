@@ -8,8 +8,11 @@
     <string name="location" translatable="false">Location</string>
     <string name="errorLocation">Enter your location</string>
     <string name="errorDistance">Enter your distance</string>
-    <string name="toastAdd">Added</string>
+
     <string name="firstWalkMessage">Hi! This your first walk with us! Please add you notes about your walk 👍</string>
     <string name="text_your_walks">Your walks</string>
     <string name="edit_text_hello_message">Here you are can keep details about your walks</string>
+    <string name="text_view_congrat">Congratulation!</string>
+    <string name="text_view_congrat_info"> %1$.1d km is you new record! Cheers 🤩</string>
+    <string name="button_add">Wow!</string>
 </resources>
