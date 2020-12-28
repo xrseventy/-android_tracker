@@ -47,8 +47,7 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
         }
         if (savedInstanceState != null) {
             supportFragmentManager.getFragment(savedInstanceState, "myFragmentName")
-        }
-        else
+        } else
             initCongratFragment()
     }
 
@@ -66,14 +65,13 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
         }
 
     }
+
     override fun renderFragment(model: ModelWalksScreenState) {
-        if(model.congrulationVisible) {
+        if (model.congrulationVisible) {
             setVisibilityContainerFragment(model.congrulationVisible)
             setCongrutilationsText(model.enterDistance.toDouble())
             showCongratFragment()
-        }
-        else
-        {
+        } else {
             hideCongrutilationsFragment()
             setVisibilityContainerFragment(model.congrulationVisible)
         }
@@ -81,18 +79,20 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
 
     private fun initCongratFragment() {
         supportFragmentManager.beginTransaction()
-            .apply {replace(R.id.frameLayoutFragment,  congrulatFragment) }
+            .apply { replace(R.id.frameLayoutFragment, congrulatFragment) }
             .addToBackStack(null)
             .commit()
         Log.d(this.toString(), "init fragment")
     }
+
     private fun showCongratFragment() {
         Log.d(this.toString(), "show fragment")
         supportFragmentManager.beginTransaction()
             .show(congrulatFragment)
             .commit()
     }
-    override fun hideCongrutilationsFragment(){
+
+    override fun hideCongrutilationsFragment() {
         Log.d(this.toString(), "hide fragment")
         supportFragmentManager.beginTransaction()
             .hide(congrulatFragment)
@@ -106,7 +106,7 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
     }
 
 
-     fun setVisibilityContainerFragment(switcher: Boolean) {
+    private fun setVisibilityContainerFragment(switcher: Boolean) {
         if (switcher) {
             frameLayoutFragment?.visibility = View.VISIBLE
             Log.d(this.toString(), "container fragment visible")
@@ -125,21 +125,19 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        if (congrulatFragment != null)
-            supportFragmentManager.putFragment(outState, "congrulatFragment", congrulatFragment)
+        supportFragmentManager.putFragment(outState, "congrulatFragment", congrulatFragment)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
 
-            supportFragmentManager.getFragment(savedInstanceState, "myFragmentName")
+        supportFragmentManager.getFragment(savedInstanceState, "myFragmentName")
     }
 
     override fun closeKeyboards() {
         closeKeyboard(editTextLocation)
         closeKeyboard(editTextDistance)
     }
-
 
     private fun setDistanceActionListener() {
         editTextDistance.setOnEditorActionListener { _, actionId, _ ->
