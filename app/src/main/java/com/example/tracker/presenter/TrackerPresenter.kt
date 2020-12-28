@@ -18,7 +18,7 @@ class TrackerPresenter(
         ModelWalksScreenState("", "", model.getListWalksFromModel(), areErrorsVisible = false, congrulationVisible = false)
 
     override fun init() {
-       // model.clearSavedWalksList()
+       //model.clearSavedWalksList()
         loadListWalk()
         trackerView.renderView(modelWalksScreenState)
 
@@ -98,7 +98,12 @@ class TrackerPresenter(
         if ( (modelWalksScreenState.listWalks.size >= 3) && modelWalksScreenState.enterDistance.toDouble() > modelWalksScreenState.maxDistance) {
             updateModelWalks(congrulationVisible = true)
             trackerView.renderFragment(modelWalksScreenState)
+            Log.d(this.toString(), "checkBestDistance true")
         }
+        else{
+            updateModelWalks(congrulationVisible = false)
+            trackerView.renderFragment(modelWalksScreenState)
+            Log.d(this.toString(), "checkBestDistance false")}
     }
 
 }

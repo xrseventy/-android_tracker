@@ -9,5 +9,5 @@ interface TrackerView {
     fun clearEditTexts()
     //TODO del toast
     fun toast()
-    fun showCongrutilationsFragment(switcher: Boolean)
+    fun hideCongrutilationsFragment()
 }
