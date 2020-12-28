@@ -31,7 +31,7 @@ import kotlinx.android.synthetic.main.location_field.*
 class TrackerActivity : AppCompatActivity(), TrackerView {
 
     private lateinit var trackerPresenter: TrackerPresenter
-    private val congrulatFragment = CongrulatFragment()
+    private var congrulatFragment = CongrulatFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +45,11 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
         buttonAdd.setOnClickListener {
             trackerPresenter.clickAddButton()
         }
-        if
+        if (savedInstanceState != null) {
+            supportFragmentManager.getFragment(savedInstanceState, "myFragmentName")
+        }
+        else
+            initCongratFragment()
     }
 
     override fun renderView(model: ModelWalksScreenState) {
@@ -77,7 +81,7 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
 
     private fun initCongratFragment() {
         supportFragmentManager.beginTransaction()
-            .apply {replace(R.id.frameLayoutFragment, congrulatFragment) }
+            .apply {replace(R.id.frameLayoutFragment,  congrulatFragment) }
             .addToBackStack(null)
             .commit()
         Log.d(this.toString(), "init fragment")
@@ -117,6 +121,18 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
         textViewCongratInfo.text = (getString(R.string.text_view_congrat_info, countProgress))
         Log.d(this.toString(), "set text fragment fragment")
         Log.d(this.toString(), "$countProgress  fragment")
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        if (congrulatFragment != null)
+            supportFragmentManager.putFragment(outState, "congrulatFragment", congrulatFragment)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+
+            supportFragmentManager.getFragment(savedInstanceState, "myFragmentName")
     }
 
     override fun closeKeyboards() {

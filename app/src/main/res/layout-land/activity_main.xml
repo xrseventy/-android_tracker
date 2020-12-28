@@ -25,4 +25,14 @@
         app:layout_constraintStart_toEndOf="@+id/enter_fields"
         app:layout_constraintTop_toTopOf="@+id/enter_fields" />
 
+    <FrameLayout
+        android:id="@+id/frameLayoutFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/list_field"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/enter_fields" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

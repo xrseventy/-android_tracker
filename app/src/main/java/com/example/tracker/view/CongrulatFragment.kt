@@ -22,7 +22,6 @@ class CongrulatFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_congrulat, container, false)
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -33,10 +32,6 @@ class CongrulatFragment : Fragment() {
             trackerActivity.hideCongrutilationsFragment()
         }
     }
-
-
-
-
 }
 
 
