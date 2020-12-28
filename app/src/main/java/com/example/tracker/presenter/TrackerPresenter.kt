@@ -1,9 +1,6 @@
 package com.example.tracker.presenter
 
-import android.content.Context
 import android.util.Log
-import android.view.Gravity
-import android.widget.Toast
 import com.example.tracker.data.model.Model
 import com.example.tracker.data.SavedWalk
 import com.example.tracker.data.model.ModelWalksScreenState
@@ -24,7 +21,7 @@ class TrackerPresenter(
        // model.clearSavedWalksList()
         loadListWalk()
         trackerView.renderView(modelWalksScreenState)
-        Log.d(this.toString(), "num ${modelWalksScreenState.num}")
+
     }
 
     override fun clickAddButton() {
@@ -97,16 +94,11 @@ class TrackerPresenter(
         return loadedList
     }
 
-    private fun findBiggestDistance(){
-        //if (modelWalksScreenState.enterDistance.toDouble() > modelWalksScreenState.isBiggestDistance)
-        Log.d(this.toString(), "num ${modelWalksScreenState.num}")
-    }
-
-    //TODO del toast
     private fun  checkBestDistance() {
-        if (modelWalksScreenState.enterDistance.toDouble() > modelWalksScreenState.num!!) {
+        if ( (modelWalksScreenState.listWalks.size >= 3) && modelWalksScreenState.enterDistance.toDouble() > modelWalksScreenState.maxDistance) {
             updateModelWalks(congrulationVisible = true)
-            trackerView.toast()
+            trackerView.renderFragment(modelWalksScreenState)
         }
     }
+
 }

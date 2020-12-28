@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.tracker.R
+import com.example.tracker.presenter.TrackerPresenter
 import kotlinx.android.synthetic.main.activity_fields_and_progress.*
 import kotlinx.android.synthetic.main.fragment_congrulat.*
 
@@ -20,26 +21,24 @@ import kotlinx.android.synthetic.main.fragment_congrulat.*
 class CongrulatFragment : Fragment() {
     // TODO: Rename and change types of parameters
 
+    var trackerActivity: TrackerActivity = TrackerActivity()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-         buttonWow.setOnClickListener {
-             Toast.makeText(activity, "Hola ratita", Toast.LENGTH_SHORT).show()}
-
         return inflater.inflate(R.layout.fragment_congrulat, container, false)
 
     }
-//    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//        button.setOnClickListener{
-//            text.setText("Hello")
-//        }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        buttonWow.setOnClickListener {
+            Toast.makeText(activity, "Hey", Toast.LENGTH_SHORT).show()
+            trackerActivity.showCongrutilationsFragment(false)
+        }
     }
 
-
-
-
 }
+
+
