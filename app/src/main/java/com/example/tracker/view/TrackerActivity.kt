@@ -58,7 +58,6 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
         updateProgressText(model.totalDistance)
         updateProgressBar(model.totalDistance)
         updateAdapter(model.listWalks)
-        //initCongratFragment()
         if (!model.isEnterDistanceValid && model.areErrorsVisible) {
             setErrorDistance(model.distanceErrorResId)
         }
