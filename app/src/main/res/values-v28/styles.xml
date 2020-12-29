@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns2="http://schemas.android.com/apk/res-auto">
+
+    <style name="MyMaterialAlertDialog" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="android:windowBackground">@drawable/dialog_border</item>
+        <item name="android:dialogCornerRadius" ns2:ignore="newApi">5dp</item>
+        <item name="buttonBarPositiveButtonStyle">@style/OutlinedButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/OutlinedButton</item>
+        <item name="materialAlertDialogTitleTextStyle">
+            @style/MaterialAlertDialog.MaterialComponents.Title.Text
+        </item>
+        <item name="materialAlertDialogBodyTextStyle">
+            @style/MaterialAlertDialog.MaterialComponents.Body.Text
+        </item>
+    </style>
+
+</resources>

@@ -25,8 +25,5 @@ class Model(private val preferencesProvider: PreferencesProvider) {
     fun checkKeySavedWalksList(): Boolean {
         return preferencesProvider.hasKey(PreferencesProvider.KEY_STR_SAVED_WALK)
     }
-    fun clearSavedWalksList(){
-        return preferencesProvider.clearList()
-    }
 
 }

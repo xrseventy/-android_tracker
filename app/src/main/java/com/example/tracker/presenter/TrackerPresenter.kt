@@ -1,6 +1,5 @@
 package com.example.tracker.presenter
 
-import android.util.Log
 import com.example.tracker.data.model.Model
 import com.example.tracker.data.SavedWalk
 import com.example.tracker.data.model.ModelWalksScreenState
@@ -15,13 +14,17 @@ class TrackerPresenter(
 ) : Presenter {
 
     private var modelWalksScreenState: ModelWalksScreenState =
-        ModelWalksScreenState("", "", model.getListWalksFromModel(), areErrorsVisible = false, congrulationVisible = false)
+        ModelWalksScreenState(
+            "",
+            "",
+            model.getListWalksFromModel(),
+            areErrorsVisible = false,
+            congratulationVisible = false
+        )
 
     override fun init() {
-       //model.clearSavedWalksList()
         loadListWalk()
         trackerView.renderView(modelWalksScreenState)
-
     }
 
     override fun clickAddButton() {
@@ -32,11 +35,12 @@ class TrackerPresenter(
             saveListWalksToSharedPref()
             prepareScreen()
             trackerView.renderView(modelWalksScreenState)
-        } else
-        {   updateModelWalks(areErrorVisible = true)
+        } else {
+            updateModelWalks(areErrorVisible = true)
             trackerView.renderView(modelWalksScreenState)
         }
     }
+
     override fun onLocationTextChanged(inputLocation: String) =
         updateModelWalks(location = inputLocation)
 
@@ -73,14 +77,20 @@ class TrackerPresenter(
         trackerView.closeKeyboards()
     }
 
-     private fun updateModelWalks(
+    private fun updateModelWalks(
         location: String = modelWalksScreenState.enterLocation,
         distance: String = modelWalksScreenState.enterDistance,
         listWalks: List<SavedWalk> = modelWalksScreenState.listWalks,
         areErrorVisible: Boolean = modelWalksScreenState.areErrorsVisible,
-        congrulationVisible: Boolean = modelWalksScreenState.congrulationVisible
+        congrulationVisible: Boolean = modelWalksScreenState.congratulationVisible
     ) {
-        modelWalksScreenState = ModelWalksScreenState(location, distance, listWalks, areErrorVisible, congrulationVisible)
+        modelWalksScreenState = ModelWalksScreenState(
+            location,
+            distance,
+            listWalks,
+            areErrorVisible,
+            congrulationVisible
+        )
     }
 
     private fun isWalkListInSharedPref(): Boolean {
@@ -94,16 +104,13 @@ class TrackerPresenter(
         return loadedList
     }
 
-    private fun  checkBestDistance() {
-        if ( (modelWalksScreenState.listWalks.size >= 3) && modelWalksScreenState.enterDistance.toDouble() > modelWalksScreenState.maxDistance) {
+    private fun checkBestDistance() {
+        if ((modelWalksScreenState.listWalks.size > 2) && modelWalksScreenState.enterDistance.toDouble() > modelWalksScreenState.maxDistance) {
             updateModelWalks(congrulationVisible = true)
-            trackerView.renderFragment(modelWalksScreenState)
-            Log.d(this.toString(), "checkBestDistance true")
-        }
-        else{
+            trackerView.setUpCongratulateDialog(modelWalksScreenState.enterDistance.toDouble())
+        } else {
             updateModelWalks(congrulationVisible = false)
-            trackerView.renderFragment(modelWalksScreenState)
-            Log.d(this.toString(), "checkBestDistance false")}
+        }
     }
 
 }

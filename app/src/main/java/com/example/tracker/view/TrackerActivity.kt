@@ -5,12 +5,11 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import com.example.tracker.R
@@ -27,11 +26,9 @@ import kotlinx.android.synthetic.main.distance_field.*
 import kotlinx.android.synthetic.main.fragment_congrulat.*
 import kotlinx.android.synthetic.main.location_field.*
 
-
 class TrackerActivity : AppCompatActivity(), TrackerView {
 
     private lateinit var trackerPresenter: TrackerPresenter
-    private var congrulatFragment = CongrulatFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,10 +42,15 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
         buttonAdd.setOnClickListener {
             trackerPresenter.clickAddButton()
         }
-        if (savedInstanceState != null) {
-            supportFragmentManager.getFragment(savedInstanceState, "myFragmentName")
-        } else
-            initCongratFragment()
+
+    }
+    override fun setUpCongratulateDialog(countProgress: Double){
+        val builder = AlertDialog.Builder(this, R.style.MyMaterialAlertDialog)
+        builder.setTitle(R.string.text_view_congrat)
+        builder.setMessage(getString(R.string.text_view_congrat_info, countProgress))
+        builder.setPositiveButton(R.string.button_wow)  { _, _ ->  }
+        builder.show()
+
     }
 
     override fun renderView(model: ModelWalksScreenState) {
@@ -56,82 +58,13 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
         updateProgressText(model.totalDistance)
         updateProgressBar(model.totalDistance)
         updateAdapter(model.listWalks)
-        initCongratFragment()
+        //initCongratFragment()
         if (!model.isEnterDistanceValid && model.areErrorsVisible) {
             setErrorDistance(model.distanceErrorResId)
         }
         if (!model.isEnterLocationValid && model.areErrorsVisible) {
             setErrorLocation(model.locationErrorResId)
         }
-
-    }
-
-    override fun renderFragment(model: ModelWalksScreenState) {
-        if (model.congrulationVisible) {
-            setVisibilityContainerFragment(model.congrulationVisible)
-            setCongrutilationsText(model.enterDistance.toDouble())
-            showCongratFragment()
-        } else {
-            hideCongrutilationsFragment()
-            setVisibilityContainerFragment(model.congrulationVisible)
-        }
-    }
-
-    private fun initCongratFragment() {
-        supportFragmentManager.beginTransaction()
-            .apply { replace(R.id.frameLayoutFragment, congrulatFragment) }
-            .addToBackStack(null)
-            .commit()
-        Log.d(this.toString(), "init fragment")
-    }
-
-    private fun showCongratFragment() {
-        Log.d(this.toString(), "show fragment")
-        supportFragmentManager.beginTransaction()
-            .show(congrulatFragment)
-            .commit()
-    }
-
-    override fun hideCongrutilationsFragment() {
-        Log.d(this.toString(), "hide fragment")
-        supportFragmentManager.beginTransaction()
-            .hide(congrulatFragment)
-            .commit()
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        Log.d(this.toString(), "clear fragment")
-        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-    }
-
-
-    private fun setVisibilityContainerFragment(switcher: Boolean) {
-        if (switcher) {
-            frameLayoutFragment?.visibility = View.VISIBLE
-            Log.d(this.toString(), "container fragment visible")
-        } else {
-            frameLayoutFragment?.visibility = View.INVISIBLE
-            Log.d(this.toString(), "container fragment invisible")
-        }
-    }
-
-    private fun setCongrutilationsText(countProgress: Double) {
-
-        textViewCongratInfo.text = (getString(R.string.text_view_congrat_info, countProgress))
-        Log.d(this.toString(), "set text fragment fragment")
-        Log.d(this.toString(), "$countProgress  fragment")
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        supportFragmentManager.putFragment(outState, "congrulatFragment", congrulatFragment)
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-
-        supportFragmentManager.getFragment(savedInstanceState, "myFragmentName")
     }
 
     override fun closeKeyboards() {
@@ -200,13 +133,5 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
             textViewFirstLaunch.visibility = View.INVISIBLE
         }
     }
-
-    //TODO del toast
-    override fun toast() {
-        val toastAdd = Toast.makeText(applicationContext, "Best!", Toast.LENGTH_LONG)
-        toastAdd.setGravity(Gravity.TOP, 0, 170)
-        toastAdd.show()
-    }
-
 
 }

@@ -11,5 +11,5 @@
     <string name="errorLocation">Напишите ваш адрес</string>
     <string name="text_view_congrat">Поздравляем!</string>
     <string name="text_view_congrat_info">%1$.1f км ваш новый рекорд 🤩</string>
-    <string name="button_add">Ура!</string>
+    <string name="button_wow">Ура!</string>
 </resources>

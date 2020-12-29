@@ -14,5 +14,5 @@
     <string name="edit_text_hello_message">Here you are can keep details about your walks</string>
     <string name="text_view_congrat">Congratulation!</string>
     <string name="text_view_congrat_info">%1$.1f km is you new record! Cheers 🤩</string>
-    <string name="button_add">Wow!</string>
+    <string name="button_wow">Wow!</string>
 </resources>
