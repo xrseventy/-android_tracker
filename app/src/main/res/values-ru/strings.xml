@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Мои прогулки 🏔</string>
     <string name="add_button">Добавить</string>
     <string name="enter_distance_km">Введите растояние, км</string>
     <string name="enter_location">Введите адрес</string>
     <string name="your_progress">Ваш прогресс %1$.1f/100 км</string>
     <string name="text_your_walks">Ваши прогулки</string>
     <string name="edit_text_hello_message">Здесь можно делать заметки о ваших прогулках</string>
-    <string name="firstWalkMessage">Привет! Это ваша первая прогулка с нами, добавьте пожалуйста заметку о прогулке</string>
+    <string name="firstWalkMessage">Привет! Это ваша первая прогулка с нами, добавьте пожалуйста заметку о прогулке 👍</string>
     <string name="errorDistance">Укажите расстояние</string>
     <string name="errorLocation">Напишите ваш адрес</string>
     <string name="text_view_congrat">Поздравляем!</string>

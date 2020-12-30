@@ -5,6 +5,5 @@ import com.example.tracker.data.model.ModelWalksScreenState
 interface TrackerView {
     fun renderView(model: ModelWalksScreenState)
     fun closeKeyboards()
-    fun clearEditTexts()
-    fun setUpCongratulateDialog(countProgress: Double)
+    fun showCongratulateDialog(maxDistance: Double)
 }

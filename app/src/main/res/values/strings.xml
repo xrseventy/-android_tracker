@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Tracker 🏔</string>
+    <string name="app_name">Tracker 🏔</string>
     <string name="add_button">Add</string>
     <string name="enter_distance_km">Enter distance, km</string>
     <string name="enter_location">Enter Location</string>
@@ -8,7 +8,6 @@
     <string name="location" translatable="false">Location</string>
     <string name="errorLocation">Enter your location</string>
     <string name="errorDistance">Enter your distance</string>
-
     <string name="firstWalkMessage">Hi! This your first walk with us! Please add you notes about your walk 👍</string>
     <string name="text_your_walks">Your walks</string>
     <string name="edit_text_hello_message">Here you are can keep details about your walks</string>

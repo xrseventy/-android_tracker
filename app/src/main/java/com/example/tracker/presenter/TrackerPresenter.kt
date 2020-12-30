@@ -18,25 +18,28 @@ class TrackerPresenter(
             "",
             "",
             model.getListWalksFromModel(),
-            areErrorsVisible = false,
+
             congratulationVisible = false
         )
+    // areErrorsVisible = false,
 
     override fun init() {
+        //model.clearSavedWalksList()
         loadListWalk()
         trackerView.renderView(modelWalksScreenState)
     }
 
     override fun clickAddButton() {
-        updateModelWalks(areErrorVisible = false)
+       // updateModelWalks(areErrorVisible = false)
         if (modelWalksScreenState.isValidFields) {
-            checkBestDistance()
+            showCongratulationDialogIfFindMax()
             addToList()
             saveListWalksToSharedPref()
-            prepareScreen()
+            trackerView.closeKeyboards()
             trackerView.renderView(modelWalksScreenState)
         } else {
-            updateModelWalks(areErrorVisible = true)
+            //updateModelWalks(areErrorVisible = true)
+
             trackerView.renderView(modelWalksScreenState)
         }
     }
@@ -49,7 +52,8 @@ class TrackerPresenter(
 
     private fun loadListWalk() {
         if (isWalkListInSharedPref()) {
-            getSavedWalksListFromSharedPref()
+            val loadedList = model.getSavedWalksListFromSharedPref()
+            updateModelWalks(listWalks = loadedList)
         }
     }
 
@@ -71,43 +75,41 @@ class TrackerPresenter(
         )
     }
 
-    private fun prepareScreen() {
-
-        trackerView.clearEditTexts()
-        trackerView.closeKeyboards()
-    }
-
     private fun updateModelWalks(
         location: String = modelWalksScreenState.enterLocation,
         distance: String = modelWalksScreenState.enterDistance,
         listWalks: List<SavedWalk> = modelWalksScreenState.listWalks,
-        areErrorVisible: Boolean = modelWalksScreenState.areErrorsVisible,
+
         congrulationVisible: Boolean = modelWalksScreenState.congratulationVisible
     ) {
         modelWalksScreenState = ModelWalksScreenState(
             location,
             distance,
             listWalks,
-            areErrorVisible,
             congrulationVisible
         )
+
+        //areErrorVisible: Boolean = modelWalksScreenState.areErrorsVisible,
+        //areErrorVisible,
     }
 
     private fun isWalkListInSharedPref(): Boolean {
         return model.checkKeySavedWalksList()
     }
 
-    private fun getSavedWalksListFromSharedPref(): List<SavedWalk> {
-        val type: Type = object : TypeToken<List<SavedWalk?>?>() {}.type
-        val loadedList = Gson().fromJson<List<SavedWalk>>(model.getListWalksFromSharedPref(), type)
-        updateModelWalks(listWalks = loadedList)
-        return loadedList
-    }
+    //TODO moved to model
+//    private fun getSavedWalksListFromSharedPref(): List<SavedWalk> {
+//        val type: Type = object : TypeToken<List<SavedWalk?>?>() {}.type
+//        val loadedList = Gson().fromJson<List<SavedWalk>>(model.getListWalksFromSharedPref(), type)
+//        updateModelWalks(listWalks = loadedList)
+//        return loadedList
+//    }
 
-    private fun checkBestDistance() {
+    //TODO create val
+    private fun showCongratulationDialogIfFindMax() {
         if ((modelWalksScreenState.listWalks.size > 2) && modelWalksScreenState.enterDistance.toDouble() > modelWalksScreenState.maxDistance) {
             updateModelWalks(congrulationVisible = true)
-            trackerView.setUpCongratulateDialog(modelWalksScreenState.enterDistance.toDouble())
+            trackerView.showCongratulateDialog(modelWalksScreenState.enterDistance.toDouble())
         } else {
             updateModelWalks(congrulationVisible = false)
         }

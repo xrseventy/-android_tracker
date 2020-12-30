@@ -23,4 +23,8 @@ class PreferencesProvider(context: Context) {
         const val KEY_STR_NAME_FOLDER = "sharedPrefFile"
     }
 
+    fun clearList() {
+        sharedPreferences.edit().remove(KEY_STR_SAVED_WALK).apply()
+    }
+
 }

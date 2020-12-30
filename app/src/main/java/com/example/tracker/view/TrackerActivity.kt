@@ -4,14 +4,12 @@ package com.example.tracker.view
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentManager
 import com.example.tracker.R
 import com.example.tracker.data.App
 import com.example.tracker.data.SavedWalk
@@ -21,9 +19,7 @@ import com.example.tracker.ui.SavedWalksAdapter
 import com.example.tracker.ui.UtilityTextWatcher
 import kotlinx.android.synthetic.main.activity_fields_and_progress.*
 import kotlinx.android.synthetic.main.activity_list.*
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.distance_field.*
-import kotlinx.android.synthetic.main.fragment_congrulat.*
 import kotlinx.android.synthetic.main.location_field.*
 
 class TrackerActivity : AppCompatActivity(), TrackerView {
@@ -44,13 +40,13 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
         }
 
     }
-    override fun setUpCongratulateDialog(countProgress: Double){
+
+    override fun showCongratulateDialog(maxDistance: Double) {
         val builder = AlertDialog.Builder(this, R.style.MyMaterialAlertDialog)
         builder.setTitle(R.string.text_view_congrat)
-        builder.setMessage(getString(R.string.text_view_congrat_info, countProgress))
-        builder.setPositiveButton(R.string.button_wow)  { _, _ ->  }
+        builder.setMessage(getString(R.string.text_view_congrat_info, maxDistance))
+        builder.setPositiveButton(R.string.button_wow) { _, _ -> }
         builder.show()
-
     }
 
     override fun renderView(model: ModelWalksScreenState) {
@@ -58,12 +54,14 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
         updateProgressText(model.totalDistance)
         updateProgressBar(model.totalDistance)
         updateAdapter(model.listWalks)
-        if (!model.isEnterDistanceValid && model.areErrorsVisible) {
+        if (!model.isEnterDistanceValid && !model.isValidFields) {
             setErrorDistance(model.distanceErrorResId)
         }
-        if (!model.isEnterLocationValid && model.areErrorsVisible) {
+        if (!model.isEnterLocationValid && !model.isValidFields) {
             setErrorLocation(model.locationErrorResId)
         }
+        if (!model.isValidFields)
+            clearEditTexts()
     }
 
     override fun closeKeyboards() {
@@ -111,14 +109,19 @@ class TrackerActivity : AppCompatActivity(), TrackerView {
     }
 
     private fun setErrorDistance(@StringRes errorTextResId: Int?) {
-        editTextDistance.error = (errorTextResId?.let { getString(it) })
+        editTextDistance.error = errorTextResId?.let {
+            getString(it)
+        } ?: ""
     }
 
     private fun setErrorLocation(@StringRes errorTextResId: Int?) {
-        editTextLocation.error = (errorTextResId?.let { getString(it) })
+        editTextLocation.error = errorTextResId?.let {
+            getString(it)
+        } ?: ""
     }
 
-    override fun clearEditTexts() {
+
+    private fun clearEditTexts() {
         editTextLocation.editableText.clear()
         editTextLocation.clearFocus()
         editTextDistance.editableText.clear()
